@@ -24,6 +24,8 @@
 
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
 
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
@@ -222,6 +224,7 @@
         document.getElementById('Palm_Tree4').setAttribute('visible', true);
         document.getElementById('Palm_Tree6').setAttribute('visible', true);
         document.getElementById('Palm_Tree7').setAttribute('visible', true);
+        document.getElementById('mono').setAttribute('visible', true);
         document.getElementById('bridge-3').setAttribute('visible', true);
         document.getElementById('bridge-7').setAttribute('visible', true);
         document.getElementById('bridge-8').setAttribute('visible', true);
@@ -571,7 +574,8 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <div class="loading"></div>
       <div class="start-button"><Font color="limegreen">Welcome To My Treasure Island & Art Gallery!</Font></div>
     </div>
-    <a-scene networked-scene="
+    <a-scene inspector-plugin-recast
+      networked-scene="
       room: ArtIslandComplex;
       debug: true;
       adapter: easyrtc;
@@ -597,6 +601,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
          <a-asset-item id="MeetingComplex" src="assets/gltf/HexRoomMosaicA.glb" nav-agent="speed: 1.0; active: true"></a-asset-item>
 
         <a-asset-item crossorigin="anonymous" id="Palm" src="assets/gltf/PalmMinimal.glb"></a-asset-item>
+        <a-asset-item crossorigin="anonymous" id="HouseJ" src="assets/gltf/jhon/scene.gltf"></a-asset-item>
         <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
 
         <a-asset-item id="fountain" src="assets/gltf/marble_fountain.glb"></a-asset-item>        
@@ -699,6 +704,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <a-entity id="Palm_Tree4" gltf-model="#Palm" position="0.36459 -0.13506 -41.8833" rotation="-6.868045090233179 61.74422383447803 5.194435370656045" scale="0.002 0.003 0.002" shadow=""></a-entity>
       <a-entity id="Palm_Tree6" gltf-model="#Palm" position="-16.813 0.23619 -2.103" rotation="0 78.26 0" scale="0.002 0.003 0.002" shadow></a-entity>
       <a-entity id="Palm_Tree7" gltf-model="#Palm" position="-17.030 0.18785 -16.375" rotation="-0.7522935850067709 58.93100106038569 7.000971298703528" scale="0.002 0.003 0.002" shadow></a-entity>
+      <a-entity id="House1" gltf-model="#HouseJ" position="-260.22 0 -41.075" rotation="0 90 0" scale="" shadow=""></a-entity>
 <!--      <a-entity id="RocketVirtualTXT" position="1.377 0.287 -10.662" rotation="0 -90 0" text-geometry="value:Treasure Island VR Art Gallery; font: #optimerBoldFont" scale="0.25 0.25 0.25" material="color: #1C93EE"></a-entity>
 
       <a-entity id="RocketVirtualTXT2" position="11.820 1.075 -10.055" rotation="0 -90 0" text-geometry="value: VR &amp; Art by Michael McAnally; font: #optimerBoldFont" scale="0.1 0.1 0.3" material="color: #1C93EE"></a-entity>
