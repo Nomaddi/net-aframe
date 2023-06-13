@@ -24,8 +24,6 @@
 
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
 
-    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
@@ -121,6 +119,7 @@
         document.getElementById('MeetingBuildings').setAttribute('visible', false);
         document.getElementById('MeetingBuildings2').setAttribute('visible', false);
         document.getElementById('MeetingBuildings3').setAttribute('visible', false);
+        document.getElementById('MeetingBuildings4').setAttribute('visible', false);
 
         //verificacion jhon
         document.getElementById('movieScreenControls').setAttribute('visible', false);
@@ -188,6 +187,7 @@
         document.getElementById('MeetingBuildings').setAttribute('visible', true);
         document.getElementById('MeetingBuildings2').setAttribute('visible', true);
         document.getElementById('MeetingBuildings3').setAttribute('visible', true);
+        document.getElementById('MeetingBuildings4').setAttribute('visible', true);
 
         //verificacion jhon
         document.getElementById('movieScreenControls').setAttribute('visible', true);
@@ -574,8 +574,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <div class="loading"></div>
       <div class="start-button"><Font color="limegreen">Welcome To My Treasure Island & Art Gallery!</Font></div>
     </div>
-    <a-scene inspector-plugin-recast
-      networked-scene="
+    <a-scene networked-scene="
       room: ArtIslandComplex;
       debug: true;
       adapter: easyrtc;
@@ -601,7 +600,6 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
          <a-asset-item id="MeetingComplex" src="assets/gltf/HexRoomMosaicA.glb" nav-agent="speed: 1.0; active: true"></a-asset-item>
 
         <a-asset-item crossorigin="anonymous" id="Palm" src="assets/gltf/PalmMinimal.glb"></a-asset-item>
-        <a-asset-item crossorigin="anonymous" id="HouseJ" src="assets/gltf/jhon/scene.gltf"></a-asset-item>
         <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
 
         <a-asset-item id="fountain" src="assets/gltf/marble_fountain.glb"></a-asset-item>        
@@ -664,11 +662,11 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
 
         <!-- /Templates -->
 
-        <a-asset-item id="navmesh-glb" src="assets/gltf/TreasureIslandNavmeshFinal2.gltf"></a-asset-item>  
+        <a-asset-item id="navmesh-glb" src="assets/gltf/meshJhon2.gltf"></a-asset-item>  
       </a-assets>
 
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
-      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" nav-mesh></a-gltf-model>
+      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="falseaaaaaaaaaaaaaaaaaaaaaaaaaaa" nav-mesh></a-gltf-model>
 
       <a-entity id="rig" spawn-in-circle="radius:3" networked="template:#rig-template;" simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;" movement-controls="speed:0.15;camera:#player;">
         <!-- camera -->
@@ -693,6 +691,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex" position="7.887 0.07 -9.352" rotation="0 90 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
       <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 0 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
       <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.750" rotation="0 -180 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex" position="-49.85649 13.86372 58.50288" rotation="-2.4952311977947352 -36.173117437789394 -1.2267026393750924" scale="0.02 0.02 0.02" shadow=""></a-entity>
       <!-- Bridges allowing us to move around the island and on multiple levels.  -->
       <a-box id="water-bridge" position="-44.05655 -4.30731 -22.47425" rotation="-72.20929796254252 179.95229246350846 89.64325775278321" scale="6.0626 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
       <a-box id="bridge-3" position="-31.82349 5.17492 28.89981" rotation="-72.60521179897792 142.80400085840637 -82.01718949959195" scale="13.92453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
@@ -704,7 +703,6 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <a-entity id="Palm_Tree4" gltf-model="#Palm" position="0.36459 -0.13506 -41.8833" rotation="-6.868045090233179 61.74422383447803 5.194435370656045" scale="0.002 0.003 0.002" shadow=""></a-entity>
       <a-entity id="Palm_Tree6" gltf-model="#Palm" position="-16.813 0.23619 -2.103" rotation="0 78.26 0" scale="0.002 0.003 0.002" shadow></a-entity>
       <a-entity id="Palm_Tree7" gltf-model="#Palm" position="-17.030 0.18785 -16.375" rotation="-0.7522935850067709 58.93100106038569 7.000971298703528" scale="0.002 0.003 0.002" shadow></a-entity>
-      <a-entity id="House1" gltf-model="#HouseJ" position="-260.22 0 -41.075" rotation="0 90 0" scale="" shadow=""></a-entity>
 <!--      <a-entity id="RocketVirtualTXT" position="1.377 0.287 -10.662" rotation="0 -90 0" text-geometry="value:Treasure Island VR Art Gallery; font: #optimerBoldFont" scale="0.25 0.25 0.25" material="color: #1C93EE"></a-entity>
 
       <a-entity id="RocketVirtualTXT2" position="11.820 1.075 -10.055" rotation="0 -90 0" text-geometry="value: VR &amp; Art by Michael McAnally; font: #optimerBoldFont" scale="0.1 0.1 0.3" material="color: #1C93EE"></a-entity>
