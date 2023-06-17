@@ -58,7 +58,8 @@
         <img crossorigin="anonymous" src="assets/img/floor1.jpg" id="floor" >
 
          <!-- Hex Rooms -->
-         <a-asset-item id="MeetingComplex" src="assets/gltf/HexRoomMosaicA.glb" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <a-asset-item id="MeetingComplex" src="assets/gltf/salon.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <a-asset-item id="MeetingComplex2" src="assets/gltf/salon2.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
 
         <a-asset-item crossorigin="anonymous" id="Palm" src="assets/gltf/PalmMinimal.glb"></a-asset-item>
         <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
@@ -149,12 +150,13 @@
       <a-ocean id="ourOcean" position="-47.35699 -2.58219 40.11002" scale="6 6 6" width="50" depth="50" opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
       <!-- <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0" ></a-sky> -->
       <!-- <a-sphere id="flare" radius="0.05" color="yellow" lensflare="createLight:false; relative: true; src: #flare-asset; lightColor:yellow; intensity: 5; lightDecay: 500" position="-303.76151 57.79742 4.88911"></a-sphere>  -->
-      <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex" position="7.887 0.07 -9.352" rotation="0 90 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 0 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.750" rotation="0 -180 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex" position="-49.85649 13.86372 58.50288" rotation="-2.4952311977947352 -36.173117437789394 -1.2267026393750924" scale="0.02 0.02 0.02" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex2" position="7.887 0.07 -9.352" rotation="0 -450.6 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 180 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.75" rotation="0 0 0" scale="1.208 1.208 1.208" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex2" position="-49.01302 13.65895 58.63865" rotation="0.751 149.26295408291614 0" scale="1.1219 1.1219 1.1219" shadow=""></a-entity>
       <!-- Bridges allowing us to move around the island and on multiple levels.  -->
       <a-box id="bridge-3" position="-31.82349 5.17492 28.89981" rotation="-72.60521179897792 142.80400085840637 -82.01718949959195" scale="13.92453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
+      <a-box id="bridge-4" position="-26.82402 13.79494 33.4875" rotation="-76.16521 145.284 -97.19719" scale="13.93453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
       <a-box id="bridge-7" position="-36.59874 -0.42997 -9.33153" rotation="-89.12816869496059 -90.00021045914971 90.00021045914971" scale="7.25388 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
       <a-box id="bridge-8" position="-91.33488 -0.62497 -42.07341" rotation="-89.66732198017871 44.930204378568895 -55.969382217354465" scale="8.09068 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
       <a-entity id="Palm_Tree1" gltf-model="#Palm" position="-122.21544 1.35503 -25.99071" rotation="0 0 0" scale=".002 .004 .002" shadow></a-entity>

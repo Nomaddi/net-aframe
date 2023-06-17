@@ -1,8 +1,7 @@
-/* global AFRAME */
 AFRAME.registerComponent('info-message', {
   schema: {
-    htmlSrc: {type: 'selector'},
-    startOpened: {default: false}
+    htmlSrc: { type: 'selector' },
+    startOpened: { default: false }
   },
   init: function () {
     var sceneEl = this.el.sceneEl;
@@ -18,13 +17,15 @@ AFRAME.registerComponent('info-message', {
     closeButtonEl.classList.add('a-close-button-info');
     closeButtonEl.onclick = this.toggleInfoMessage;
 
-    this.createInfoButton(this.toggleInfoMessage);
+ 
 
     this.addStyles();
     sceneEl.appendChild(messageEl);
 
     this.messageEl.style.display = startOpened ? '' : 'none';
-    this.infoButton.style.display = startOpened ? 'none' : '';
+
+    var myButton = document.getElementById('mensaje');
+    myButton.addEventListener('click', this.toggleInfoMessage);
   },
 
   update: function () {
@@ -42,13 +43,13 @@ AFRAME.registerComponent('info-message', {
 
       '.a-info-message a{border-bottom: 1px solid rgba(53,196,232,.15); color: #1497b8;' +
       'position: relative; text-decoration: none; transition: .05s ease;}' +
-        
+
       '@media only screen and (min-width: 1200px) {' +
       '.a-info-message {font-size: 12pt}}' +
 
       '@media only screen and (max-width: 600px) {' +
       '.a-info-message {left: 20px; right: 20px; bottom: 60px; width: auto}}' +
-        
+
       '@media only screen and (max-height: 600px) {' +
       '.a-info-message {left: 20px; bottom: 20px; height: 250px}}' +
 
@@ -62,8 +63,8 @@ AFRAME.registerComponent('info-message', {
       '.a-info-message-button {background: rgba(0, 0, 0, 0.20) ' + this.infoMessageButtonDataURI + ' 50% 50% no-repeat;}' +
       '.a-info-message-button {background-size: 90% 90%; border: 0; bottom: 0; cursor: pointer; min-width: 134px; min-height: 54px; padding-right: 0; padding-top: 0; position: absolute; right: 80; transition: background-color .05s ease; -webkit-transition: background-color .05s ease; z-index: 9999; border-radius: 8px; touch-action: manipulation;}' +
       '.a-info-message-button:active, .a-info-message-button:hover {background-color: #ef2d5e;}';
-    var style = document.createElement('style');
 
+    var style = document.createElement('style');
     if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
@@ -75,29 +76,11 @@ AFRAME.registerComponent('info-message', {
 
   toggleInfoMessage: function () {
     var display = this.messageEl.style.display;
-    this.infoButton.style.display = display;
     display = display === 'none' ? '' : 'none';
     this.messageEl.style.display = display;
   },
 
-  createInfoButton: function (onClick) {
-    var infoButton;
-    var wrapper;
-
-    // Create elements.
-    wrapper = document.createElement('div');
-    wrapper.classList.add('a-info-message-container');
-    this.infoButton = infoButton = document.createElement('button');
-    infoButton.className = 'a-info-message-button';
-    infoButton.setAttribute('title', 'Information about connection and movement');
-    // Insert elements.
-    wrapper.appendChild(infoButton);
-    infoButton.addEventListener('click', function (evt) {
-      onClick();
-      evt.stopPropagation();
-    });
-    this.el.sceneEl.appendChild(wrapper);
-  },
+  
 
   infoMessageButtonDataURI: 'url(assets/img/insButton3.png)'
 

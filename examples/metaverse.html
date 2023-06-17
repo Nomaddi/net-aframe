@@ -3,8 +3,8 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Treasure Island - Loading, please wait.</title>
-    <meta name="description" content="My Treasure Island Art VR Gallery with Meeting and Video Complex by Michael McAnally, September 3, 2022.">
+    <title>Metaverso Nomaddi - Cargando...</title>
+    <meta name="description" content="Metaverso Nomaddi, 2023.">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -27,6 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
+<!-- espejo no hay-->
 
     <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
     <script>window.module = {exports:{}}</script><!-- Dirty hack to get the sphere collider loading :-( -->
@@ -36,6 +37,8 @@
     <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physics.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
 
+    <!-- iconos -->
+    <script src="https://kit.fontawesome.com/ecf199e124.js" crossorigin="anonymous"></script>
     <!-- Fix for particle system with aframe 1.3.0 found here https://geeksrepos.com/IdeaSpaceVR/aframe-particle-system-component/issues/66  -->
     <script src="js/aframe-particle-system-component.min.js"></script>
 
@@ -159,6 +162,7 @@
         document.getElementById('Palm_Tree6').setAttribute('visible', false);
         document.getElementById('Palm_Tree7').setAttribute('visible', false);
         document.getElementById('bridge-3').setAttribute('visible', false);
+        document.getElementById('bridge-4').setAttribute('visible', false);
         document.getElementById('bridge-7').setAttribute('visible', false);
         document.getElementById('bridge-8').setAttribute('visible', false);
         document.getElementById('Foundation').setAttribute('visible', false);
@@ -174,7 +178,7 @@
         document.getElementById('cylinder4').setAttribute('visible', false);
         document.getElementById('cylinder5').setAttribute('visible', false);
         document.getElementById('water').setAttribute('visible', false);
-        document.getElementById('water-bridge').setAttribute('visible', false);
+        // document.getElementById('water-bridge').setAttribute('visible', false);
         document.getElementById('Treasure').setAttribute('visible', false);
         document.getElementById('fillWithGold').setAttribute('visible', false);
 
@@ -224,8 +228,8 @@
         document.getElementById('Palm_Tree4').setAttribute('visible', true);
         document.getElementById('Palm_Tree6').setAttribute('visible', true);
         document.getElementById('Palm_Tree7').setAttribute('visible', true);
-        document.getElementById('mono').setAttribute('visible', true);
         document.getElementById('bridge-3').setAttribute('visible', true);
+        document.getElementById('bridge-4').setAttribute('visible', true);
         document.getElementById('bridge-7').setAttribute('visible', true);
         document.getElementById('bridge-8').setAttribute('visible', true);
         document.getElementById('Foundation').setAttribute('visible', true);
@@ -241,7 +245,7 @@
         document.getElementById('cylinder4').setAttribute('visible', true);
         document.getElementById('cylinder5').setAttribute('visible', true);
         document.getElementById('water').setAttribute('visible', true);
-        document.getElementById('water-bridge').setAttribute('visible', true);
+        // document.getElementById('water-bridge').setAttribute('visible', true);
         document.getElementById('Treasure').setAttribute('visible', true);
         document.getElementById('fillWithGold').setAttribute('visible', true);
 
@@ -279,11 +283,11 @@
 
       function TeleportLocation(tele_num) {
 
-        var cameraPos = document.getElementById('player');
+        var cameraPos = document.getElementById('rig');
 
         switch(tele_num) {
           case 1:
-            cameraPos.setAttribute('position','-39.94197 0 -63.51876');
+            cameraPos.setAttribute('position','-46.183 13.765 55.556');
             console.log("caso1");
           break;
           case 2:
@@ -548,7 +552,6 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
         width: 120px;
         height: 2em;
       }
-      .a-enter-vr-button,
       .a-info-message-button{
         margin-bottom: 25px;
       }
@@ -558,21 +561,26 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       .a-info-message-button{
         margin-left: -68px;
       }
+
+      .a-enter-vr-button {
+        display: none !important;
+      }
     </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
 
   </head>
 
   <body>
     <div id="video-permission">
-    <button id="video-permission-button">Allow VR Video</button>
+    <button id="video-permission-button">Desear habilitar vista VR</button>
     </div>
-        <button id="playButton" type="button">Play Sound</button>
     <audio id="playAudio" autoplay loop>
-        <source src="assets/mp3/oceanSound.mp3" type="audio/mpeg">
+      <source src="assets/mp3/oceanSound.mp3" type="audio/mpeg">
     </audio>
     <div id="splash">
       <div class="loading"></div>
-      <div class="start-button"><Font color="limegreen">Welcome To My Treasure Island & Art Gallery!</Font></div>
+      <div class="start-button"><Font color="limegreen">Metaverso Nonaddi</Font></div>
     </div>
     <a-scene networked-scene="
       room: ArtIslandComplex;
@@ -589,6 +597,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
 
       webxr="overlayElement:#dom-overlay;"
       background="color:skyblue;"
+      id="my-scene"
     >
 
       <a-assets timeout="30000">
@@ -597,7 +606,9 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
         <img crossorigin="anonymous" id="orb1" src="assets/360/image/skyland2.jpg">
 
          <!-- Hex Rooms -->
-         <a-asset-item id="MeetingComplex" src="assets/gltf/HexRoomMosaicA.glb" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <a-asset-item id="MeetingComplex" src="assets/gltf/salon.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <a-asset-item id="MeetingComplex2" src="assets/gltf/salon2.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <!-- <a-asset-item id="newHex" src="assets/gltf/salon.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item> -->
 
         <a-asset-item crossorigin="anonymous" id="Palm" src="assets/gltf/PalmMinimal.glb"></a-asset-item>
         <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
@@ -662,11 +673,10 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
 
         <!-- /Templates -->
 
-        <a-asset-item id="navmesh-glb" src="assets/gltf/meshJhon2.gltf"></a-asset-item>  
+        <a-asset-item id="navmesh-glb" src="assets/gltf/mesh.gltf"></a-asset-item>  
       </a-assets>
-
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
-      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="falseaaaaaaaaaaaaaaaaaaaaaaaaaaa" nav-mesh></a-gltf-model>
+      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" nav-mesh></a-gltf-model>
 
       <a-entity id="rig" spawn-in-circle="radius:3" networked="template:#rig-template;" simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;" movement-controls="speed:0.15;camera:#player;">
         <!-- camera -->
@@ -688,13 +698,15 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
       <a-ocean id="ourOcean" position="-47.35699 -2.58219 40.11002" scale="6 6 6" width="50" depth="50" opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
       <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0" ></a-sky>
       <!-- <a-sphere id="flare" radius="0.05" color="yellow" lensflare="createLight:false; relative: true; src: #flare-asset; lightColor:yellow; intensity: 5; lightDecay: 500" position="-303.76151 57.79742 4.88911"></a-sphere>  -->
-      <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex" position="7.887 0.07 -9.352" rotation="0 90 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 0 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.750" rotation="0 -180 0" scale="0.02 0.02 0.02" shadow=""></a-entity>
-      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex" position="-49.85649 13.86372 58.50288" rotation="-2.4952311977947352 -36.173117437789394 -1.2267026393750924" scale="0.02 0.02 0.02" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex2" position="7.887 0.07 -9.352" rotation="0 -450.6 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 180 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.75" rotation="0 0 0" scale="1.208 1.208 1.208" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex2" position="-49.01302 13.65895 58.63865" rotation="0.751 149.26295408291614 0" scale="1.1219 1.1219 1.1219" shadow=""></a-entity>
+      <!-- <a-entity id="MeetingBuildings5" gltf-model="#newHex" position="-49.85649 13.86372 58.50288" rotation="-2.4952311977947352 -36.173117437789394 -1.2267026393750924" scale="0.02 0.02 0.02" shadow=""></a-entity> -->
       <!-- Bridges allowing us to move around the island and on multiple levels.  -->
-      <a-box id="water-bridge" position="-44.05655 -4.30731 -22.47425" rotation="-72.20929796254252 179.95229246350846 89.64325775278321" scale="6.0626 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+      <!-- <a-box id="water-bridge" position="-44.05655 -4.30731 -22.47425" rotation="-72.20929796254252 179.95229246350846 89.64325775278321" scale="6.0626 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box> -->
       <a-box id="bridge-3" position="-31.82349 5.17492 28.89981" rotation="-72.60521179897792 142.80400085840637 -82.01718949959195" scale="13.92453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
+      <a-box id="bridge-4" position="-26.82402 13.79494 33.4875" rotation="-76.16521 145.284 -97.19719" scale="13.93453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
       <a-box id="bridge-7" position="-36.59874 -0.42997 -9.33153" rotation="-89.12816869496059 -90.00021045914971 90.00021045914971" scale="7.25388 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
       <a-box id="bridge-8" position="-91.33488 -0.62497 -42.07341" rotation="-89.66732198017871 44.930204378568895 -55.969382217354465" scale="8.09068 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
       <a-entity id="Palm_Tree1" gltf-model="#Palm" position="-122.21544 1.35503 -25.99071" rotation="0 0 0" scale=".002 .004 .002" shadow></a-entity>
@@ -777,7 +789,7 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
 
           <a-cylinder id="TableCylinder" position="-17.27257 0.9503 -9.78536" scale="1.72 0.003 1.72" radius="0.5" height="1.5" color="#58F5EC" shadow="" material="" geometry="" opacity="0.7"></a-cylinder>
 
-          <a-box id="TeleportMarker1" class="clickable" position="-17.0279 0.99701 -10.28764" rotation="0 0 0" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(1);" shadow visible="true"></a-box>
+          <a-box id="TeleportMarker1" class="clickable" position="-17.055 1.087 -9.614" rotation="0 0 0" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(1);" shadow visible="true"></a-box>
  
           <a-box id="TeleportMarker2" class="clickable" position="-17.79691 0.99701 -10.25757" rotation="0 0 0" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(2);" shadow visible="true"></a-box>
 
@@ -820,12 +832,67 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
 
 
     </a-scene>
-
+    <div class="controls">
+      <p>
+        Metaveso Nomaddi
+        <br>
+      </p>
+    </div>
     <div class="actions">
-      <button id="mic-btn" type="button" class="button">Mute Mic</button>
+      <button id="mic-btn" type="button" class="button">
+        <i class="fas fa-microphone fa-lg"></i>
+      </button>
+      <button id="mensaje" type="button" class="button">
+        <i class="fas fa-info-circle fa-lg"></i>
+      </button>
+      <button id="vr" type="button" class="button">
+        <i class="fas fa-vr-cardboard fa-lg"></i>
+      </button>
+      <button id="muteButton" type="button" class="button">
+        <i class="fas fa-volume-down fa-lg"></i>
+      </button>
+      
+
+
     </div>
 
     <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Obtener referencias a los elementos
+        var myButton = document.getElementById('vr');
+        var scene = document.getElementById('my-scene');
+    
+        // Agregar el evento de clic al botón personalizado
+        myButton.addEventListener('click', function() {
+          scene.enterVR();
+        });
+      });
+    </script>
+
+    <script>
+      //sonido del ambiente
+      // Obtén el elemento de audio y el botón de mute
+      var audio = document.getElementById('playAudio');
+      var muteButton = document.getElementById('muteButton');
+
+      // Establece el volumen inicial al 20%
+      audio.volume = 0.05 ;
+
+      // Agrega un event listener al botón de mute
+      muteButton.addEventListener('click', function() {
+        // Verifica el estado actual del sonido (mute o no mute)
+        if (audio.muted) {
+          // Si está muteado, desmutea el sonido
+          audio.muted = false;
+          muteButton.innerHTML = '<i class="fas fa-volume-down fa-lg"></i>';
+        } else {
+          // Si no está muteado, mutea el sonido
+          audio.muted = true;
+          muteButton.innerHTML = '<i class="fas fa-volume-mute fa-lg"></i>';
+        }
+      });
+
+
       // Mic status
       let micEnabled = true;
       // Mic button element
@@ -839,7 +906,9 @@ AFRAME.registerComponent('simple-navmesh-constraint', {
         micBtnEle.addEventListener('click', function () {
           NAF.connection.adapter.enableMicrophone(!micEnabled);
           micEnabled = !micEnabled;
-          micBtnEle.textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
+          // micBtnEle.textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
+          micBtnEle.innerHTML = micEnabled ? '<i class="fas fa-microphone fa-lg"></i>' : '<i class="fas fa-microphone-slash fa-lg"></i>';
+
         });
       }
 window.onload = function() {
@@ -1039,5 +1108,6 @@ document.querySelector('button').addEventListener('click', function() {
       });
 
     </script>
+    
   </body>
 </html>
