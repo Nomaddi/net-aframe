@@ -1,0 +1,11 @@
+Model Information:
+* title:	Casa Archicad obj
+* source:	https://sketchfab.com/3d-models/casa-archicad-obj-ab06679727b1493eb27ca9bd822b2343
+* author:	Santanillarq (https://sketchfab.com/Santanillarq)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Casa Archicad obj" (https://sketchfab.com/3d-models/casa-archicad-obj-ab06679727b1493eb27ca9bd822b2343) by Santanillarq (https://sketchfab.com/Santanillarq) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

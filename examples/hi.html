@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Treasure Island - Loading, please wait.</title>
+    <meta name="description" content="My Treasure Island Art VR Gallery with Meeting and Video Complex by Michael McAnally, September 3, 2022.">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+    <script>window.module = {exports:{}}</script><!-- Dirty hack to get the sphere collider loading :-( -->
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@master/src/misc/sphere-collider.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@d08cf88/dist/aframe-extras.controls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
+
+    <style type="text/css">
+      #video-permission {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          z-index: 10000;
+          display: none;
+      }
+      #video-permission-button {
+        position: fixed;
+        top: calc(50% - 1em);
+        left: calc(50% - 60px);
+        width: 120px;
+        height: 2em;
+      }
+      .a-enter-vr-button,
+      .a-info-message-button{
+        margin-bottom: 25px;
+      }
+      .a-info-message{
+        margin-bottom: 33px;
+      }
+      .a-info-message-button{
+        margin-left: -68px;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item crossorigin="anonymous" id="Island" src="assets/gltf/IslandSmooth.glb"></a-asset-item>
+        <img crossorigin="anonymous" src="assets/img/floor1.jpg" id="floor" >
+
+         <!-- Hex Rooms -->
+         <a-asset-item id="MeetingComplex" src="assets/gltf/salon.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
+         <a-asset-item id="MeetingComplex2" src="assets/gltf/salon2.gltf" nav-agent="speed: 1.0; active: true"></a-asset-item>
+
+        <a-asset-item crossorigin="anonymous" id="Palm" src="assets/gltf/PalmMinimal.glb"></a-asset-item>
+        <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
+
+        <a-asset-item id="fountain" src="assets/gltf/marble_fountain.glb"></a-asset-item>        
+
+        <img crossorigin="anonymous" id="artwork1" src="assets/artwork/0eb6c68f-05bd-4413-8e51-9d1ac8769b48.jpg">
+
+        <img crossorigin="anonymous" id="artwork3" src="assets/artwork/0eb6c68f-05bd-4413-8e51-9d1ac8769b48.jpg">
+       
+        <img crossorigin="anonymous" id="artwork11" src="assets/artwork/0eb6c68f-05bd-4413-8e51-9d1ac8769b48.jpg">
+        <img crossorigin="anonymous" id="artwork12" src="assets/artwork/0eb6c68f-05bd-4413-8e51-9d1ac8769b48.jpg">
+        <img crossorigin="anonymous" id="artwork13" src="assets/artwork/0eb6c68f-05bd-4413-8e51-9d1ac8769b48.jpg">
+
+        <a-asset-item id="Sofa3seat" src="assets/gltf/GreySofa.glb"></a-asset-item>
+        <a-asset-item id="SwivelChair" src="assets/gltf/chairLeatherAluminum.glb"></a-asset-item>
+        <a-asset-item id="Table1" src="assets/gltf/tableFixed14.glb"></a-asset-item>
+        <img id="teleportLabel" crossorigin="anonymous" src="assets/img/teleportSymbol.png">
+
+        <img crossorigin="anonymous" id="movementInstructions" src="assets/img/movementControl.jpg">                
+
+        <img crossorigin="anonymous" id="orb5" src="assets/360/image/theBeach.jpg">
+        <img crossorigin="anonymous" id="orb7" src="assets/360/image/SAM_101_0152.jpg">
+        <img crossorigin="anonymous" id="orb8" src="assets/360/image/SAM_101_0128.jpg">
+        <img crossorigin="anonymous" id="orbthumb5" src="assets/360/image/thumb/theBeach_thumb.jpg">
+        <img crossorigin="anonymous" id="orbthumb7" src="assets/360/image/thumb/SAM_101_0152_thumb.jpg">
+        <img crossorigin="anonymous" id="orbthumb8" src="assets/360/image/thumb/SAM_101_0128_thumb.jpg">
+        <img crossorigin="anonymous" id="imgthumb5" src="assets/360/image/imgthumb/theBeach.jpg">
+        <img crossorigin="anonymous" id="imgthumb7" src="assets/360/image/imgthumb/SAM_101_0152_imgthumb.jpg">
+        <img crossorigin="anonymous" id="imgthumb8" src="assets/360/image/imgthumb/SAM_101_0128_imgthumb.jpg">
+        <img crossorigin="anonymous" id="ReturnBack" src="assets/img/ReturnBack.png">
+
+        <a-asset-item id="ShapeSculpture" src="assets/gltfSculpture/ShapesScuplture3.glb"></a-asset-item>
+        <a-asset-item id="Raygun" src="assets/gltf/raygun.glb"></a-asset-item>
+        <a-asset-item id="MeBustAvatar" src="assets/gltf/FinalMeBustAvatar.glb"></a-asset-item>
+        <a-asset-item id="Chest" src="assets/gltf/testChest2.glb"></a-asset-item>
+        <img crossorigin="anonymous" src="assets/img/coins.jpg" id="coins">
+
+        <img crossorigin="anonymous" src="assets/img/play2.png" id="play" >
+        <img crossorigin="anonymous" src="assets/img/pause.png" id="pause" >
+        <img crossorigin="anonymous" src="assets/img/volume-normal.png" id="volume-normal" >
+        <img crossorigin="anonymous" src="assets/img/volume-mute.png" id="volume-mute" >
+        <img crossorigin="anonymous" src="assets/img/seek-back.png" id="seek-back" >
+
+        <video crossorigin="anonymous" id="video-src" src="assets/video/VRpitch.mp4"></video>
+
+        <a-mixin id="marble" geometry="primitive: sphere" scale=".30 .30 .30" animation__rotation="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: rotation; to: 0 360 0; loop: true; dur: 10000" animation__mouseenter="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: components.material.material.color; type: color; to: white;  dur: 500; " animation__mouseleave="property: components.material.material.color; type: color; to: gray; startEvents: mouseleave; dur: 500;" shadow ></a-mixin>
+        <a-mixin id="spin" animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-mixin>
+        <a-mixin id="blink" blink-controls="button:trigger; rotateOnTeleport:false; cameraRig: #rig; teleportOrigin: #player; collisionEntities:.navmesh;"></a-mixin>
+
+        <!-- Templates -->
+        <!-- As a substitution for a proper avatar we just use a robot head and hands for now --> 
+        <a-asset-item id="RobotHead" src="assets/gltf/avatarHead.glb"></a-asset-item>
+        <!-- Avatar -->
+        <template id="rig-template">
+          <a-entity networked-audio-source><!-- <a-box color="#FFF" position="0 1.4 0" material="" networked-video-source="" geometry="" scale="0.325 0.325 0.325"></a-box>  --></a-entity>
+        </template>
+
+        <template id="head-template">
+          <a-entity class="cam" gltf-model="#RobotHead" scale="1 1 1"></a-entity>
+        </template>
+
+        <!-- /Templates -->
+
+        <a-asset-item id="navmesh-glb" src="assets/gltf/TreasureIslandNavmeshFinal2.gltf"></a-asset-item>  
+      </a-assets>
+
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" nav-mesh></a-gltf-model>
+
+      <a-entity id="rig" spawn-in-circle="radius:3" networked="template:#rig-template;" simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;" movement-controls="speed:0.15;camera:#player;">
+        <!-- camera -->
+        <a-entity id="player" camera="near:0.01;" look-controls position="0 1.65 0" networked="template:#head-template" visible="false">
+
+        </a-entity>
+
+          <a-entity id="leftHand" hand-controls="hand: left;" networked-hand-controls="template:#hand-left; handModelStyle: lowPoly; color: #15ACCF" mixin="blink">
+          </a-entity>
+
+          <a-entity id="rightHand" hand-controls="hand: right;" networked-hand-controls="template:#hand-right; handModelStyle: lowPoly; color: #15ACCF" laser-controls raycaster=";showLine:true; lineColor:#7cfc00; opacity: 0.5; far: 10; interval: 0; objects: [html], .raycastable, .clickable, .fountian_ball, .cylinder4, a-link;">
+          </a-entity>
+
+      </a-entity>
+
+      <a-entity id="The_Island" gltf-model="#Island" position="-208.88164 -9.83526 -154.40424" scale="140 140 140" visible="" shadow="cast: false; receive: true"></a-entity>
+      <a-entity id="ambientlight" light="type: ambient; intensity: .95"></a-entity>
+      <a-box id="Foundation" position="-3.32823 -0.09738 -7.89352" rotation="-90.00021045914971 90 0" scale="13.29474 10.89561 0.32555" width="4" height="4" color="#FFFFFF" shadow="receive: true" material="src: #floor; color: white; transparent: true; repeat: 50 50" geometry=""></a-box>
+      <a-ocean id="ourOcean" position="-47.35699 -2.58219 40.11002" scale="6 6 6" width="50" depth="50" opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
+      <!-- <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0" ></a-sky> -->
+      <!-- <a-sphere id="flare" radius="0.05" color="yellow" lensflare="createLight:false; relative: true; src: #flare-asset; lightColor:yellow; intensity: 5; lightDecay: 500" position="-303.76151 57.79742 4.88911"></a-sphere>  -->
+      <a-entity id="MeetingBuildings" gltf-model="#MeetingComplex2" position="7.887 0.07 -9.352" rotation="0 -450.6 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings2" gltf-model="#MeetingComplex" position="-5.053 0.07 7.499" rotation="0 180 0" scale="1.20838 1.20838 1.20838" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings3" gltf-model="#MeetingComplex" position="-5.266 0.07 -24.75" rotation="0 0 0" scale="1.208 1.208 1.208" shadow=""></a-entity>
+      <a-entity id="MeetingBuildings4" gltf-model="#MeetingComplex2" position="-49.01302 13.65895 58.63865" rotation="0.751 149.26295408291614 0" scale="1.1219 1.1219 1.1219" shadow=""></a-entity>
+      <!-- Bridges allowing us to move around the island and on multiple levels.  -->
+      <a-box id="bridge-3" position="-31.82349 5.17492 28.89981" rotation="-72.60521179897792 142.80400085840637 -82.01718949959195" scale="13.92453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
+      <a-box id="bridge-4" position="-26.82402 13.79494 33.4875" rotation="-76.16521 145.284 -97.19719" scale="13.93453 1 0.143" width="4" height="4" color="#FFFFFF" opacity=".35" material="" geometry=""></a-box>
+      <a-box id="bridge-7" position="-36.59874 -0.42997 -9.33153" rotation="-89.12816869496059 -90.00021045914971 90.00021045914971" scale="7.25388 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+      <a-box id="bridge-8" position="-91.33488 -0.62497 -42.07341" rotation="-89.66732198017871 44.930204378568895 -55.969382217354465" scale="8.09068 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+      <a-entity id="Palm_Tree1" gltf-model="#Palm" position="-122.21544 1.35503 -25.99071" rotation="0 0 0" scale=".002 .004 .002" shadow></a-entity>
+      <a-entity id="Palm_Tree2" gltf-model="#Palm" position="26.89416 -0.91787 0.262" rotation="0 78.26 0" scale=".002 .004 .002" shadow></a-entity>
+      <a-entity id="Palm_Tree3" gltf-model="#Palm" position="-53.19211 -1.21051 -11.23701" rotation="0 78.26 0" scale="0.002 0.003 0.002" shadow=""></a-entity>
+      <a-entity id="Palm_Tree4" gltf-model="#Palm" position="0.36459 -0.13506 -41.8833" rotation="-6.868045090233179 61.74422383447803 5.194435370656045" scale="0.002 0.003 0.002" shadow=""></a-entity>
+      <a-entity id="Palm_Tree6" gltf-model="#Palm" position="-16.813 0.23619 -2.103" rotation="0 78.26 0" scale="0.002 0.003 0.002" shadow></a-entity>
+      <a-entity id="Palm_Tree7" gltf-model="#Palm" position="-17.030 0.18785 -16.375" rotation="-0.7522935850067709 58.93100106038569 7.000971298703528" scale="0.002 0.003 0.002" shadow></a-entity>
+      
+<!--      <a-entity id="RocketVirtualTXT" position="1.377 0.287 -10.662" rotation="0 -90 0" text-geometry="value:Treasure Island VR Art Gallery; font: #optimerBoldFont" scale="0.25 0.25 0.25" material="color: #1C93EE"></a-entity>
+
+      <a-entity id="RocketVirtualTXT2" position="11.820 1.075 -10.055" rotation="0 -90 0" text-geometry="value: VR &amp; Art by Michael McAnally; font: #optimerBoldFont" scale="0.1 0.1 0.3" material="color: #1C93EE"></a-entity>
+
+      <a-entity id="TextSpot" position="-12.32473 1.90418 -5.60294" rotation="-1.4169246273585259 84.1428629195273 -86.78649018626092" light="angle: 75; decay: 0.65; distance: 1; type: spot; intensity: 0.35; color: #d57cbd"></a-entity>
+      <a-entity id="TeleportingOrbsTXT" position="-4.436 0.28739 1.431" rotation="0 -180 0" text-geometry="value: Teleporting Orbs; font: #optimerBoldFont" scale="0.2 0.2 0.2" material="color: #F9CF45"></a-entity>  -->
+
+      <a-cylinder id="cylinder1" position="-16.813 0.08504 -2.103" scale="1.372 0.113 1.372" radius="0.5" height="1.5" color="#E3E3E3" shadow="" material="" geometry=""></a-cylinder>
+      <a-sphere id="sphere1" position="-16.813 -0.0407 -2.103" scale="0.457 0.307 0.457" radius="1.25" color="#51A727" shadow="" material="" geometry=""></a-sphere>
+      <a-cylinder id="cylinder2" position="-17.030 0.08504 -16.375" scale="1.372 0.113 1.372" radius="0.5" height="1.5" color="#E3E3E3" shadow="" material="" geometry=""></a-cylinder>
+      <a-sphere id="sphere2" position="-17.030 -0.0407 -16.375" scale="0.457 0.307 0.457" radius="1.25" color="#51A727" shadow="" material="" geometry=""></a-sphere>
+      <a-entity id="waterfountain" gltf-model="#fountain" position="-13.491 -0.14203 -9.204" scale="2 .75 2" shadow=""></a-entity>
+      <a-entity id="water" position="-13.491 1.416 -9.204" particle-system="color:#000, #FFF;duration:NaN;velocitySpread:2 3 2;velocityValue:0 9 0;accelerationSpread:1 0 1;particleCount:45;maxAge:1.5;texture: /assets/img/dot2.png" visible="true"></a-entity>
+
+      <!-- Our Treasure Chest in glTF format Link to license: https://creativecommons.org/licenses/by/4.0/  Location: https://sketchfab.com/3d-models/old-chest-efc357374ecf4d17a36e85f1237e624c -->
+      <a-entity id="Treasure" gltf-model="#Chest" position="-36.36444 -9.686 -2.52202" rotation="0 -48.819441891916924 0" scale="0.01 0.01 0.01" visible="true"></a-entity>
+
+      <a-plane id="fillWithGold" position="-36.36285 -9.226 -2.50207" rotation="-89.67878113608133 66.30955154608043 -113.66164852466733" width="4" height="4" color="#EBE3B6" material="src: #coins" visible="true" scale="0.261 0.117 0.407"></a-plane>
+
+      <a-cylinder id="cylinder4" position="-13.491 0.07067 -9.204" scale="2.292 0.207 2.292" radius="0.5" height="1.5" color="#18C7D2" shadow="" material="" geometry="" opacity=".35"></a-cylinder>
+
+      <a-cylinder id="cylinder5" position="-13.491 1.01776 -9.204" scale="1.36 0.00668 1.36" radius="0.5" height="1.5" color="#18C7D2" shadow="" material="" geometry="" opacity=".35"></a-cylinder>      
+
+      <a-plane id="MovementControls" position="-1.631 1.949 1.351" scale="2 1 2" rotation="0 149.525 0" material="src: #movementInstructions; color: white; transparent: true; side: double" geometry="" ></a-plane>
+      <a-plane id="MovementControls2" position="2.881 1.949 -3.926" scale="2 1 2" rotation="0 -60.412 0" material="src: #movementInstructions; color: white; transparent: true; side: double" geometry="" ></a-plane>
+
+      <a-plane id="artworkPosition1" position="2.514 1.9 -5.999" scale="1.33 1 1" rotation="0 -63.463 0" material="src: #artwork1; color: white; transparent: true; side: double" geometry="" ></a-plane>
+     
+      <a-plane id="artworkPosition3" position="13.324 1.949 -12.624" scale="3.120 2.025 1" rotation="0 -60 0" material="src: #artwork3; color: white; transparent: true; side: double" geometry="" ></a-plane>
+
+      <a-plane id="artworkPosition11" position="7.726 1.9 -15.676" scale="1.33 1 1" rotation="0 0 0" material="src: #artwork11; color: white; transparent: true; side: double" geometry="" ></a-plane>
+      <a-plane id="artworkPosition12" position="13.725 1.9 -6.801" scale="1.33 1 1" rotation="0 -120 0" material="src: #artwork12; color: white; transparent: true; side: double" geometry="" ></a-plane>
+      <a-plane id="artworkPosition13" position="2.882 1.9 -13.393" scale="1.33 1 1" rotation="0 60.056 0" material="src: #artwork13; color: white; transparent: true; side: double" geometry="" ></a-plane>
+
+      <a-entity id="Bust" gltf-model="#MeBustAvatar" position="11.761 1.04973 -9.522" rotation="-8.101 -92.101 1.267" scale="0.003 0.003 0.003" shadow visible=""></a-entity>
+      <a-box id="Pedistal2" position="12.137 0.557 -9.570" rotation="0 -96.895 0" color="#FFFFFF" visible="" shadow="" material="" geometry=""></a-box>
+      <a-entity id="PedistalSpot2" position="11.703 1.716 -9.532" rotation="-32.965 -82.998 94.747" light="angle: 55; decay: 0.65; distance: 0.6; type: spot; intensity: 5; color: #d57cbd"></a-entity>
+
+      <a-entity id="ShootRaygun" gltf-model="#Raygun" position="6.552 0.924 -4.710" rotation="77.827 41.635 0" scale="0.2 0.195 0.195" shadow visible=""></a-entity>
+      <a-box id="Pedistal" position="6.749 0.55738 -4.451" rotation="0 45 0" color="#FFFFFF" visible="" shadow="" material="" geometry=""></a-box>
+      <a-entity id="GunPedistalSpot" position="6.749 1.398 -4.451" rotation="-90.680 -0.538 4.844" light="angle: 55; decay: 0.5; distance: 1; type: spot"></a-entity>
+
+      <a-entity id="modelSculpture" position="7.909 1.983 -9.350" rotation="0 0 0" scale="0.0002 0.0002 0.0002" gltf-model="#ShapeSculpture" mixin="spin" shadow="recieve: false; cast: true"></a-entity>
+      <a-cylinder id="cylinder3" position="7.909 0.698 -9.350" radius="0.5" height="1.5" scale=".7 0.660 .7" color="#FFFFFF" shadow></a-cylinder>
+      <a-entity id="SculptureSpot" position="7.909 3 -9.350" rotation="-88.61766329949904 -119.47201352508898 123.77091586195557" light="angle: 75; decay: 0.7; distance: 1.5; type: spot; intensity: 0.7"></a-entity>
+
+      <a-sphere id="orb_place5" class="clickable" mixin="marble" position="-5.162 0.83949 9.520" rotation="0 45 0" material="src: #orbthumb5" onclick="playSwoosh();changeOrb(5);STOPplay360();"  onmouseenter="sqrImg(5);" onmouseleave="dspImg(5);"></a-sphere>
+      <a-sphere id="orb_place7" class="clickable" mixin="marble" position="-7.144 0.83949 7.539" rotation="0 45 0" material="src: #orbthumb7" onclick="playSwoosh();changeOrb(7);STOPplay360();"  onmouseenter="sqrImg(7);" onmouseleave="dspImg(7);"></a-sphere>
+      <a-sphere id="orb_place8" class="clickable" mixin="marble" position="-3.205 0.83949 7.601" rotation="0 45 0" material="src: #orbthumb8" onclick="playSwoosh();changeOrb(8);STOPplay360();"  onmouseenter="sqrImg(8);" onmouseleave="dspImg(8);"></a-sphere>
+      <a-entity id="OrbName_place5" material="color: #F9CF45" class="clickable" position="-4.723 4.241 12.141" rotation="0 180 0" text-geometry="value: The Beach; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('The Beach');" visible="false"></a-entity>
+      <a-entity id="OrbName_place7" material="color: #F9CF45" class="clickable" position="-4.723 4.241 12.141" rotation="0 180 0" text-geometry="value: Pier and Bridge; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('Pier and Bridge');" visible="false"></a-entity>
+      <a-entity id="OrbName_place8" material="color: #F9CF45" class="clickable" position="-4.723 4.241 12.141" rotation="0 180 0" text-geometry="value: Downtown SF; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('San Francisco Market Street');" visible="false"></a-entity>
+      <a-plane id="orb_2Dimg5" position="-5.118 2.749 12.141" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb5; side: double"  visible="false"></a-plane>
+      <a-plane id="orb_2Dimg7" position="-5.118 2.749 12.141" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb7; side: double" visible="false"></a-plane>
+      <a-plane id="orb_2Dimg8" position="-5.118 2.749 12.141" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb8; side: double" visible="false"></a-plane>
+      <a-box id="ReturnIsland" class="clickable" position="-5.278 0.542 8.081" rotation="-27.12095723251752 -180 0" material="src: #ReturnBack" scale="0.3 0.3 0.3" onclick="restoreScene();" shadow visible="false"></a-box>
+
+      <a-entity id="shadowcamera" light="intensity: 0.25; castShadow: true; shadowCameraLeft: -100; shadowCameraBottom: -100; shadowCameraRight: 100; shadowCameraTop: 100; shadowCameraVisible: false; angle: 180; decay: 0.5; shadowCameraFar: 100; shadowMapHeight: 1024; shadowMapWidth: 1024" position="-30.43253 34.92862 0.12768"></a-entity>
+
+      <!-- position furniture  -->
+      <a-entity id="Office_Swivel_Chair1" gltf-model="#SwivelChair" position="-4.339 0.192 -26.621" rotation="0 -51.412 0" scale="0.014 0.014 0.014" shadow visible=""></a-entity>
+      <a-entity id="Office_Swivel_Chair2" gltf-model="#SwivelChair" position="-6.947 0.192 -23.517" rotation="0 108.391 0" scale="0.014 0.014 0.014" shadow="" visible=""></a-entity>
+      <a-entity id="Office_Swivel_Chair3" gltf-model="#SwivelChair" position="-7.163 0.192 -25.697" rotation="0 58.518 0" scale="0.014 0.014 0.014" shadow="" visible=""></a-entity>
+      <a-entity id="Office_Swivel_Chair4" gltf-model="#SwivelChair" position="-3.606 0.192 -23.713" rotation="0 -121.394 0" scale="0.014 0.014 0.014" shadow="" visible=""></a-entity>
+
+      <a-entity id="MeetingTable" gltf-model="#Table1" position="-5.362 0.251 -24.650" rotation="0 -180 0" scale="0.000075 0.000035 0.000075" shadow="" visible=""></a-entity>
+
+      <!-- Small Terrain Map   -->
+
+      <a-entity id="mapTeleport" position="12.011 0.197 -14.880">
+          <a-entity id="Islands_small_map" gltf-model="#Island" position="-17.990 0.91452 -10.828" rotation="0 0 0" scale="0.806 1.0 0.806" shadow visible=""></a-entity>
+
+          <a-cylinder id="TableCylinder" position="-17.27257 0.9503 -9.78536" scale="1.72 0.003 1.72" radius="0.5" height="1.5" color="#58F5EC" shadow="" material="" geometry="" opacity="0.7"></a-cylinder>
+
+          <a-box id="TeleportMarker1" class="clickable" position="-17.0279 0.99701 -10.28764" rotation="0 0 0" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(1);" shadow visible="true"></a-box>
+ 
+          <a-box id="TeleportMarker2" class="clickable" position="-17.79691 0.99701 -10.25757" rotation="0 0 0" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(2);" shadow visible="true"></a-box>
+
+          <a-box id="TeleportMarker4" class="clickable" position="-17.36615 0.99701 -9.68553" rotation="" material="src: #teleportLabel" scale="0.025 0.025 0.025" onclick="TeleportLocation(4);" shadow="" visible="" geometry=""></a-box>
+      </a-entity>
+
+      <a-entity id="Sofawith3seats" gltf-model="#Sofa3seat" position="-1.592 -0.006 -20.507" rotation="0 -150 0" scale="0.0005 0.0005 0.0005" shadow=""></a-entity>
+      <a-entity id="SofaSpot" position="-2.043 1.24002 -21.04855" rotation="-60.895673339889285 -169.4150256532575 -177.87073679379813" light="angle: 85; decay: 0.7; distance: 1.5; type: spot; intensity: 0.7"></a-entity>
+
+      <!-- Ramps -->
+      <a-box id="hex-ramp" position="7.815 3.535 -24.762" rotation="-60 90 -90" scale="3.58635 0.868 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+      <a-box id="hex-between1" position="2.091 7.067 -0.013" rotation="-90.000 -120.000 0.000" scale="1.824 0.491 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+      <a-box id="hex-between2" position="2.115 7.06669 -17.855" rotation="-89.222 -0.012 127.790" scale="1.452 0.482 0.143" width="4" height="4" color="#FFFFFF" shadow="" material="" geometry="" opacity=".35"></a-box>
+
+
+
+      
+
+    </a-scene>
+
+   
+
+  </body>
+</html>

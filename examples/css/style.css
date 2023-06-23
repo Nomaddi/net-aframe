@@ -2,16 +2,20 @@
   position: absolute;
   display: flex;
   bottom: 3%;
-  left: 3%;
+  left: 45%;
+  width: 10%;
+  background: #FFFFFF80;
 }
 
 .actions .button {
   cursor: pointer;
-  background: #fff;
-  height: 40px;
-  width: 130px;
-  border-radius: 30px;
-  margin-right: 10px;
+  background: #FFFFFF10;
+  height: 35px;
+  width: 35px;
+  /* width: 130px; */
+  /* border-radius: 30px; */
+  /* margin-right: 10px; */
+  border: none;
 }
 
 .controls {
