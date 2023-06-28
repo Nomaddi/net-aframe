@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Metaverso Nomaddi - Cargando...</title>
+  <meta name="description" content="Metaverso Nomaddi, 2023.">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+  <script src="/easyrtc/easyrtc.js"></script>
+  <script src="/dist/networked-aframe.js"></script>
+  <!-- espejo-->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component/dist/aframe-environment-component.min.js"></script> -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+  <script>window.module = { exports: {} }</script><!-- Dirty hack to get the sphere collider loading :-( -->
+  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@master/src/misc/sphere-collider.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@d08cf88/dist/aframe-extras.controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physx.release.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physics.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
+
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/ecf199e124.js" crossorigin="anonymous"></script>
+  <!-- Fix for particle system with aframe 1.3.0 found here https://geeksrepos.com/IdeaSpaceVR/aframe-particle-system-component/issues/66  -->
+  <script src="js/aframe-particle-system-component.min.js"></script>
+
+  <script src="js/spawn-in-circle.component.js"></script>
+  <script src="js/info-message3.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="/css/loader.css"> -->
+  <!-- <script src="/js/loader.js"></script> -->
+  <script type="text/javascript">
+
+    // see issue https://github.com/networked-aframe/networked-aframe/issues/267
+    NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+
+    NAF.schemas.getComponents = (template) => {
+      if (!NAF.schemas.hasTemplate('#head-template')) {
+        NAF.schemas.add({
+          template: '#head-template',
+          components: [
+            'position',
+            'rotation',
+            {
+              selector: '.head',
+              component: 'material',
+              property: 'color'
+            }
+          ]
+        });
+
+      }
+      if (!NAF.schemas.hasTemplate('#sphere-template')) {
+          NAF.schemas.add({
+            template: '#sphere-template',
+            components: [
+              'position',
+              {
+                component: 'material',
+                property: 'color'
+              }
+            ]
+          });
+        }
+
+      const components = NAF.schemas.getComponentsOriginal(template);
+      return components;
+    };
+
+
+
+
+    AFRAME.registerPrimitive('a-ocean', {
+      defaultComponents: {
+        ocean: {},
+        rotation: { x: -90, y: 0, z: 0 }
+      },
+      mappings: {
+        width: 'ocean.width',
+        depth: 'ocean.depth',
+        density: 'ocean.density',
+        amplitude: 'ocean.amplitude',
+        amplitudevariance: 'ocean.amplitudeVariance',
+        speed: 'ocean.speed',
+        speedvariance: 'ocean.speedVariance',
+        color: 'ocean.color',
+        opacity: 'ocean.opacity'
+      }
+    });
+
+    AFRAME.registerComponent('ocean', {
+      schema: {
+        // Dimensions of the ocean area.
+        width: { default: 10, min: 0 },
+        depth: { default: 10, min: 0 },
+
+        // Density of waves.
+        density: { default: 10 },
+
+        // Wave amplitude and variance.
+        amplitude: { default: 0.1 },
+        amplitudeVariance: { default: 0.3 },
+
+        // Wave speed and variance.
+        speed: { default: 1 },
+        speedVariance: { default: 2 },
+
+        // Material.
+        color: { default: '#7AD2F7', type: 'color' },
+        opacity: { default: 0.8 }
+      },
+
+
+      play: function () {
+        const el = this.el,
+          data = this.data;
+        let material = el.components.material;
+
+        const geometry = new THREE.PlaneBufferGeometry(data.width, data.depth, data.density, data.density);
+        THREE.BufferGeometryUtils.mergeVertices(geometry)
+        this.waves = [];
+        for (let v, i = 2, l = geometry.attributes.position.array.length; i < l; i += 3) {
+          v = geometry.attributes.position.array[i]
+          this.waves.push({
+            z: v,
+            ang: Math.random() * Math.PI * 2,
+            amp: data.amplitude + Math.random() * data.amplitudeVariance,
+            speed: (data.speed + Math.random() * data.speedVariance) / 1000 // radians / frame
+          });
+        }
+
+        if (!material) {
+          material = {};
+          material.material = new THREE.MeshPhongMaterial({
+            color: data.color,
+            transparent: data.opacity < 1,
+            opacity: data.opacity,
+            flatShading: true,
+          });
+        }
+
+        this.mesh = new THREE.Mesh(geometry, material.material);
+        el.setObject3D('mesh', this.mesh);
+      },
+
+      remove: function () {
+        this.el.removeObject3D('mesh');
+      },
+
+      tick: function (t, dt) {
+        if (!dt) return;
+
+        for (let v, vprops, i = 0, j = 2; i < this.waves.length; i++, j += 3) {
+          vprops = this.waves[i];
+          v = vprops.z + Math.sin(vprops.ang) * vprops.amp;
+          this.mesh.geometry.attributes.position.array[j] = v
+          vprops.ang += vprops.speed * dt;
+        }
+
+        this.mesh.geometry.attributes.position.needsUpdate = true;
+      }
+    });
+
+
+    /* global AFRAME, THREE */
+
+    /* Constrain an object to a navmesh, for example place this element after wasd-controls like so:
+    `wasd-controls navmesh-physics="#navmesh-el"`
+    */
+    AFRAME.registerComponent('simple-navmesh-constraint', {
+      schema: {
+        enabled: {
+          default: true
+        },
+        navmesh: {
+          default: ''
+        },
+        fall: {
+          default: 0.5
+        },
+        height: {
+          default: 1.6
+        },
+        exclude: {
+          default: ''
+        },
+        xzOrigin: {
+          default: ''
+        }
+      },
+
+      update: function () {
+        this.lastPosition = null;
+        this.excludes = this.data.exclude ? Array.from(document.querySelectorAll(this.data.exclude)) : [];
+        const els = Array.from(document.querySelectorAll(this.data.navmesh));
+        if (els === null) {
+          console.warn('navmesh-physics: Did not match any elements');
+          this.objects = [];
+        } else {
+          this.objects = els.map(el => el.object3D).concat(this.excludes.map(el => el.object3D));
+        }
+        this.xzOrigin = this.data.xzOrigin ? this.el.querySelector(this.data.xzOrigin) : this.el;
+      },
+
+      tick: (function () {
+        const nextPosition = new THREE.Vector3();
+        const tempVec = new THREE.Vector3();
+        const scanPattern = [
+          [0, 1], // Default the next location
+          [0, 0.5], // Check that the path to that location was fine
+          [30, 0.4], // A little to the side shorter range
+          [-30, 0.4], // A little to the side shorter range
+          [60, 0.2], // Moderately to the side short range
+          [-60, 0.2], // Moderately to the side short range
+          [80, 0.06], // Perpendicular very short range
+          [-80, 0.06], // Perpendicular very short range
+        ];
+        const down = new THREE.Vector3(0, -1, 0);
+        const raycaster = new THREE.Raycaster();
+        const gravity = -1;
+        const maxYVelocity = 0.5;
+        const results = [];
+        let yVel = 0;
+        let firstTry = true;
+
+        return function tick(time, delta) {
+          if (this.data.enabled === false) return;
+          if (this.lastPosition === null) {
+            firstTry = true;
+            this.lastPosition = new THREE.Vector3();
+            this.xzOrigin.object3D.getWorldPosition(this.lastPosition);
+            if (this.data.xzOrigin) this.lastPosition.y -= this.xzOrigin.object3D.position.y;
+          }
+
+          const el = this.el;
+          if (this.objects.length === 0) return;
+
+          this.xzOrigin.object3D.getWorldPosition(nextPosition);
+          if (this.data.xzOrigin) nextPosition.y -= this.xzOrigin.object3D.position.y;
+          if (nextPosition.distanceTo(this.lastPosition) <= 0.01) return;
+
+          let didHit = false;
+          // So that it does not get stuck it takes as few samples around the user and finds the most appropriate
+          scanPatternLoop:
+          for (const [angle, distance] of scanPattern) {
+            tempVec.subVectors(nextPosition, this.lastPosition);
+            tempVec.applyAxisAngle(down, angle * Math.PI / 180);
+            tempVec.multiplyScalar(distance);
+            tempVec.add(this.lastPosition);
+            tempVec.y += maxYVelocity;
+            tempVec.y -= this.data.height;
+            raycaster.set(tempVec, down);
+            raycaster.far = this.data.fall > 0 ? this.data.fall + maxYVelocity : Infinity;
+            raycaster.intersectObjects(this.objects, true, results);
+
+            if (results.length) {
+              // If it hit something we want to avoid then ignore it and stop looking
+              for (const result of results) {
+                if (this.excludes.includes(result.object.el)) {
+                  results.splice(0);
+                  continue scanPatternLoop;
+                }
+              }
+              const hitPos = results[0].point;
+              results.splice(0);
+              hitPos.y += this.data.height;
+              if (nextPosition.y - (hitPos.y - yVel * 2) > 0.01) {
+                yVel += Math.max(gravity * delta * 0.001, -maxYVelocity);
+                hitPos.y = nextPosition.y + yVel;
+              } else {
+                yVel = 0;
+              }
+              tempVec.copy(hitPos);
+              this.xzOrigin.object3D.parent.worldToLocal(tempVec);
+              tempVec.sub(this.xzOrigin.object3D.position);
+              if (this.data.xzOrigin) tempVec.y += this.xzOrigin.object3D.position.y;
+              this.el.object3D.position.add(tempVec);
+
+              this.lastPosition.copy(hitPos);
+              didHit = true;
+              break;
+            }
+
+          }
+
+          if (didHit) {
+            firstTry = false;
+          }
+
+          if (!firstTry && !didHit) {
+            this.el.object3D.position.copy(this.lastPosition);
+            this.el.object3D.parent.worldToLocal(this.el.object3D.position);
+          }
+        }
+      }())
+    });
+
+  </script>
+
+  <!-- espejo -->
+  <script>
+    // Mirror Material component for A-Frame by Alfredo Consebola 2017.
+    AFRAME.registerComponent('mirror', {
+      schema: {
+        resolution: {
+          type: 'number',
+          default: 128
+        },
+        refraction: {
+          type: 'number',
+          default: 0.95
+        },
+        color: {
+          type: 'color',
+          default: 0xffffff
+        },
+        distance: {
+          type: 'number',
+          default: 1000
+        },
+        interval: {
+          type: 'number',
+          default: 1000
+        },
+        repeat: {
+          type: 'boolean',
+          default: false
+        }
+      },
+      /**
+       * Set if component needs multiple instancing.
+       */
+      multiple: false,
+      init: function() {
+        this.counter = this.data.interval;
+        const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(this.data.resolution, {
+          format: THREE.RGBFormat,
+          generateMipmaps: true,
+          minFilter: THREE.LinearMipmapLinearFilter
+        });
+        this.cam = new THREE.CubeCamera(0.5, this.data.distance, cubeRenderTarget);
+        this.el.object3D.add(this.cam);
+        this.mirrorMaterial = new THREE.MeshBasicMaterial({
+          color: this.data.color,
+          refractionRatio: this.data.refraction,
+          envMap: this.cam.renderTarget.texture
+        });
+        this.done = false;
+        var mirrormat = this.mirrorMaterial;
+        this.mesh = this.el.getObject3D('mesh');
+        if (this.mesh) {
+          this.mesh.traverse(function(child) {
+            if (child instanceof THREE.Mesh) child.material = mirrormat;
+          });
+        }
+      },
+      tick: function(t, dt) {
+        if (!this.done) {
+          if (this.counter > 0) {
+            this.counter -= dt;
+          } else {
+            this.mesh = this.el.getObject3D('mesh');
+            if (this.mesh) {
+              this.mesh.visible = false;
+              let target = new THREE.Vector3();
+              this.el.object3D.getWorldPosition(target);
+              this.cam.position = target
+              // this.el.sceneEl.object3D.updateMatrixWorld()
+              this.cam.update(AFRAME.scenes[0].renderer, this.el.sceneEl.object3D);
+              var mirrormat = this.mirrorMaterial;
+              this.mesh.traverse(function(child) {
+                if (child instanceof THREE.Mesh) child.material = mirrormat;
+              });
+              this.mesh.visible = true;
+              if (!this.data.repeat) {
+                this.done = true;
+                this.counter = this.data.interval;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+  <!-- Video Player Styling -->
+  <style type="text/css">
+    #video-permission {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 10000;
+      display: none;
+    }
+
+    #video-permission-button {
+      position: fixed;
+      top: calc(50% - 1em);
+      left: calc(50% - 60px);
+      width: 120px;
+      height: 2em;
+    }
+
+    .a-info-message-button {
+      margin-bottom: 25px;
+    }
+
+    .a-info-message {
+      margin-bottom: 33px;
+    }
+
+    .a-info-message-button {
+      margin-left: -68px;
+    }
+
+    .a-enter-vr-button {
+      display: none !important;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+
+</head>
+
+<body>
+  <div id="video-permission">
+    <button id="video-permission-button">Desear habilitar vista VR</button>
+  </div>
+  <audio id="playAudio" autoplay loop>
+    <source src="assets/mp3/oceanSound.mp3" type="audio/mpeg">
+  </audio>
+  <div id="splash">
+    <div class="loading"></div>
+    <div class="start-button">
+      <Font color="limegreen">Metaverso Nonaddi</Font>
+    </div>
+  </div>
+  <a-scene networked-scene="
+      room: ArtIslandComplex;
+      debug: true;
+      adapter: easyrtc;
+      audio: true;
+      video: false;"
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://stemkoski.github.io/A-Frame-Examples/js/physx.release.wasm; useDefaultScene: false;"
+    info-message="htmlSrc: #messageText" shadow="type: pcfsoft"
+    renderer="antialias:true;highRefreshRate:true;alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
+    raycaster="objects: .raycastable, .clickable, .fountian_ball, .cylinder4, a-link, a-sphere"
+    vr-mode-ui="enabled: true" webxr="overlayElement:#dom-overlay;" background="color:skyblue;" id="my-scene">
+
+    <a-assets timeout="30000">
+      <a-asset-item crossorigin="anonymous" id="Island" src="assets/gltf-Jhon/metaverse.gltf"></a-asset-item>
+      <img crossorigin="anonymous" src="assets/img/floor1.jpg" id="floor">
+      <img crossorigin="anonymous" id="orb1" src="assets/360/image/skyland2.jpg">
+      <img crossorigin="anonymous" id="1" src="assets/360/1.jpeg">
+      <img crossorigin="anonymous" id="2" src="assets/360/2.jpeg">
+
+      <a-asset-item id="messageText" src="ControlsMessage.html" response-type="text"></a-asset-item>
+
+      <a-mixin id="marble" geometry="primitive: sphere" scale=".30 .30 .30"
+        animation__rotation="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: rotation; to: 0 360 0; loop: true; dur: 10000"
+        animation__mouseenter="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: components.material.material.color; type: color; to: white;  dur: 500; "
+        animation__mouseleave="property: components.material.material.color; type: color; to: gray; startEvents: mouseleave; dur: 500;"
+        shadow></a-mixin>
+      <a-mixin id="spin" animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-mixin>
+      <a-mixin id="blink"
+        blink-controls="button:trigger; rotateOnTeleport:false; cameraRig: #rig; teleportOrigin: #player; collisionEntities:.navmesh;"></a-mixin>
+
+      <!-- Templates -->
+      <!-- As a substitution for a proper avatar we just use a robot head and hands for now -->
+      <a-asset-item id="RobotHead" src="assets/gltf/avatarHead.glb"></a-asset-item>
+      <!-- Avatar -->
+      <template id="rig-template">
+        <a-entity
+          networked-audio-source><!-- <a-box color="#FFF" position="0 1.4 0" material="" networked-video-source="" geometry="" scale="0.325 0.325 0.325"></a-box>  --></a-entity>
+      </template>
+
+      <template id="head-template">
+        <a-entity class="cam" gltf-model="#RobotHead" scale="1 1 1"></a-entity>
+      </template>
+
+      <!-- /Templates -->
+
+      <a-asset-item id="navmesh-glb" src="assets/gltf-Jhon/mesh.glb"></a-asset-item>
+    </a-assets>
+    <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+    <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" nav-mesh
+      position="-38.667 1.104 -34.506"></a-gltf-model>
+
+    <a-entity id="rig" position="2.146 0.000 -35.612" rotation="0 -90 0" spawn-in-circle="radius:2" networked="template:#rig-template;"
+      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#player;">
+      <!-- camera -->
+      <a-entity id="player" camera="near:0.01;" look-controls position="0 1.65 0" networked="template:#head-template"
+        visible="false">
+
+      </a-entity>
+
+      <a-entity id="leftHand" hand-controls="hand: left;"
+        networked-hand-controls="template:#hand-left; handModelStyle: lowPoly; color: #15ACCF" mixin="blink">
+      </a-entity>
+
+      <a-entity id="rightHand" hand-controls="hand: right;"
+        networked-hand-controls="template:#hand-right; handModelStyle: lowPoly; color: #15ACCF" laser-controls
+        raycaster=";showLine:true; lineColor:#7cfc00; opacity: 0.5; far: 10; interval: 0; objects: [html], .raycastable, .clickable, .fountian_ball, .cylinder4, a-link;">
+      </a-entity>
+
+    </a-entity>
+    <a-entity id="water" position="-13.491 1.416 -9.204"
+      particle-system="color:#000, #FFF;duration:NaN;velocitySpread:2 3 2;velocityValue:0 9 0;accelerationSpread:1 0 1;particleCount:45;maxAge:1.5;texture: /assets/img/dot2.png"
+      visible="true"></a-entity>
+
+    <a-entity id="The_Island" gltf-model="#Island" position="-38.667 1.104 -34.506" scale="1 1 1" visible=""
+      shadow="cast: false; receive: true"></a-entity>
+    <a-entity id="ambientlight" light="type: ambient; intensity: .95"></a-entity>
+    <a-ocean id="ourOcean" position="-47.35699 -2.58219 40.11002" scale="12 12 12" width="50" depth="50" opacity=".55"
+      ocean="color: #63b3d9; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
+    <a-ocean id="ourOcean2" position="7.05893 6.27228 -70.78279" scale="0.22 -0.379 2.17" width="50" depth="50"
+      opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
+    <a-ocean id="ourOcean3" position="2.20019 5.95613 -64.28848" scale="0.22 -0.379 2.17" width="50" depth="50"
+      opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"
+      rotation="-90 0 -51.76881"></a-ocean>
+    <a-ocean id="ourOcean4" position="5.819 14.22205 -91.01398" scale="0.22 -0.379 2.17" width="50" depth="50"
+      opacity=".55" ocean="color: #06C6CB; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
+    <a-ocean id="espuma" position="6.78265 6.36312 -80.37173" scale="0.25666 0.05 0.1" width="50" depth="50"
+      opacity=".55"
+      ocean="color: #06C6CB; density: 45; amplitude: 3; speed: 0.95; speedVariance: 0.2; amplitudeVariance: 3"
+      rotation="-61.86999999999999 0 0"></a-ocean>
+    <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0"></a-sky>
+
+    <template id="sphere-template">
+      <a-entity id="espejo" geometry="primitive: plane; segments-height:10; segments-width: 10;" color="green" position="2.353 1.5 -34.203" rotation="0 45 0" scale="3 3 3" mirror="repeat: true; resolution: 1024; interval: 100;">
+    </template>
+
+    <a-sphere id="orb_place1" scale="5 5 5" position="-5.654 8.765 -85.565" material="side: double;src: #1"></a-sphere>
+    <a-sphere id="orb_place2" scale="5 5 5" position="-16.665 9.310 -80.842" material="side: double;src: #2"></a-sphere>
+
+    
+    <a-entity
+        id="sphere"
+        networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene"
+      ></a-entity>
+  </a-scene>
+  <div class="controls">
+    <p>
+      Metaveso Nomaddi
+      <br>
+    </p>
+  </div>
+  <div class="actions">
+    <button id="mic-btn" type="button" class="button">
+      <i class="fas fa-microphone fa-lg"></i>
+    </button>
+    <button id="mensaje" type="button" class="button">
+      <i class="fas fa-info-circle fa-lg"></i>
+    </button>
+    <button id="vr" type="button" class="button">
+      <i class="fas fa-vr-cardboard fa-lg"></i>
+    </button>
+    <button id="muteButton" type="button" class="button">
+      <i class="fas fa-volume-down fa-lg"></i>
+    </button>
+
+
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Obtener referencias a los elementos
+      var myButton = document.getElementById('vr');
+      var scene = document.getElementById('my-scene');
+
+      // Agregar el evento de clic al botón personalizado
+      myButton.addEventListener('click', function () {
+        scene.enterVR();
+      });
+    });
+  </script>
+
+  <script>
+    //sonido del ambiente
+    // Obtén el elemento de audio y el botón de mute
+    var audio = document.getElementById('playAudio');
+    var muteButton = document.getElementById('muteButton');
+
+    // Establece el volumen inicial al 20%
+    audio.volume = 0.05;
+
+    // Agrega un event listener al botón de mute
+    muteButton.addEventListener('click', function () {
+      // Verifica el estado actual del sonido (mute o no mute)
+      if (audio.muted) {
+        // Si está muteado, desmutea el sonido
+        audio.muted = false;
+        muteButton.innerHTML = '<i class="fas fa-volume-down fa-lg"></i>';
+      } else {
+        // Si no está muteado, mutea el sonido
+        audio.muted = true;
+        muteButton.innerHTML = '<i class="fas fa-volume-mute fa-lg"></i>';
+      }
+    });
+
+
+    // Mic status
+    let micEnabled = true;
+    // Mic button element
+    const micBtnEle = document.getElementById('mic-btn');
+
+    // Called by Networked-Aframe when connected to server
+    function onConnect() {
+      console.log('onConnect', new Date());
+
+      // Handle mic button click (Mute and Unmute)
+      micBtnEle.addEventListener('click', function () {
+        NAF.connection.adapter.enableMicrophone(!micEnabled);
+        micEnabled = !micEnabled;
+        // micBtnEle.textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
+        micBtnEle.innerHTML = micEnabled ? '<i class="fas fa-microphone fa-lg"></i>' : '<i class="fas fa-microphone-slash fa-lg"></i>';
+
+      });
+    }
+
+
+
+
+  </script>
+
+</body>
+
+</html>
