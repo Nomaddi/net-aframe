@@ -347,7 +347,7 @@
       init: function() {
         this.counter = this.data.interval;
         const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(this.data.resolution, {
-          format: THREE.RGBFormat,
+          format: THREE.RGBAFormat,
           generateMipmaps: true,
           minFilter: THREE.LinearMipmapLinearFilter
         });

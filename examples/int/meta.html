@@ -1,13 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
+  <!-- Meta -->
+  <title>Metaverso</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+  <meta property="og:title" content="Metaverso" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AdaRoseCannon" />
+  <meta name="twitter:creator" content="@AdaRoseCannon" />
+  <meta property="og:url" content="https://www.nomaddi.com/" />
+  <meta name="description" content="Metaverso Inandina, 2023." />
+  <meta property="og:description" content="A sample scene for working with WebXR Hand Tracking" />
+  <meta property="og:image" content="https://www.inandina.edu.co/wp-content/uploads/2021/04/Logo-Nomaddi.png" />
+  
   <script>
-    // WebXR requires https: to work so ensure redirected if needed.
+    // WebXR requiere https: para funcionar, así que me aseguro de ser redirigido si es necesario.
     if (location.hostname !== 'localhost' && window.location.protocol === 'http:') window.location.protocol = 'https:';
   </script>
 
-  <!-- the AFrame library and 3rd party components -->
-  <script src="aframe-master.min.js"></script>
+  <!-- la biblioteca AFrame y componentes de terceros -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-master.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/components/sphere-collider.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.controls.min.js"></script>
@@ -16,40 +34,62 @@
   <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/handy-controls.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/magnet-helpers.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.0.1/build/aframe-html.min.js"></script>
-  <script src="ar-shadow-helper.js"></script>
   <script src="ar-cursor.js"></script>
   <script src="simple-navmesh-constraint.js"></script>
   <script src="model-utils.js"></script>
+
+  <!-- conexiones para multijugador -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+  <script src="../easyrtc/easyrtc.js"></script>
+  <script src="../dist/networked-aframe.js"></script>
+
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/ecf199e124.js" crossorigin="anonymous"></script>
   
-  <!-- Our custom behaviour -->
+  <!-- particulas -->
+  <script src="../js/aframe-particle-system-component.min.js"></script>
+
+  <!-- Aparecer random -->
+  <script src="../js/spawn-in-circle.component.js"></script>
+
+  <!-- oceano -->
+  <script src="../js/oceano.js"></script>
+
+  <!-- objetos online -->
+  <script src="../js/online.js"></script>
+
+  <!-- espejo -->
+  <script src="../js/espejo.js"></script>
+
+  <!-- botones -->
+  <script src="../js/botones.js"></script>
+
+  <!-- comportamiento personalizado -->
 	<script src="main.js"></script>
-  
-  <title>AFrame Handy Demo</title>
-  <meta property="og:title" content="AFrame Handy Work Demo" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@AdaRoseCannon" />
-  <meta name="twitter:creator" content="@AdaRoseCannon" />
-  <meta property="og:url" content="https://aframe-xr-starterkit.glitch.me/" />
-  <meta name="description" content="A sample scene for working with WebXR Hand Tracking" />
-  <meta property="og:description" content="A sample scene for working with WebXR Hand Tracking" />
-  <meta property="og:image" content="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/snapshot.png?v=1645201177438" />
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 	<a-scene
+  id="scene-vr"
+    networked-scene="
+        room: Metaverso;
+        debug: true;
+        adapter: easyrtc;
+        audio: true;
+        video: false;"
     physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
-		webxr="overlayElement:#dom-overlay;"
+    webxr="overlayElement:#dom-overlay;"
 		background="color:skyblue;"
 		reflection="directionalLight:#dirlight;"
-    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
-		ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+    renderer="antialias:true;highRefreshRate:true;alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
+    raycaster="objects: .raycastable, .clickable, .fountian_ball, .cylinder4, a-link, a-sphere"
 		shadow="type: pcfsoft"
 		gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;"
-    ar-cursor raycaster="objects: #my-ar-objects a-sphere"
+    ar-cursor raycaster="objects: a-sphere"
 	>
     <a-assets>
-      <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverse.gltf"></a-asset-item>
+      <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverso.glb"></a-asset-item>
       <a-asset-item id="navmesh-glb" src="../assets/gltf-Jhon/mesh.glb"></a-asset-item>
       <a-asset-item id="right-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
       <a-asset-item id="left-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-left-hand-webxr/model.gltf"></a-asset-item>
@@ -61,9 +101,40 @@
       <a-asset-item id="clock-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/vintage_grandfather_clock_01_1k-v2.glb?v=1647265174189"></a-asset-item>
       <a-asset-item id="ladder-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/ladder.glb?v=1648465045608"></a-asset-item>
       <img id="bake" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/Bake(3).webp?v=1644331344700" crossorigin="anonymous">
+      <!-- imagenes 360 -->
+      <img crossorigin="anonymous" id="orb1" src="../assets/360/image/skyland2.jpg">
+      <img crossorigin="anonymous" id="1" src="../assets/360/1.jpeg">
+      <img crossorigin="anonymous" id="2" src="../assets/360/2.jpeg">
       <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
-      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+      <!-- esferas 360 -->
+      <a-mixin id="marble" geometry="primitive: sphere" scale=".30 .30 .30"
+        animation__rotation="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: rotation; to: 0 360 0; loop: true; dur: 10000"
+        animation__mouseenter="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: components.material.material.color; type: color; to: white;  dur: 500; "
+        animation__mouseleave="property: components.material.material.color; type: color; to: gray; startEvents: mouseleave; dur: 500;"
+        shadow></a-mixin>
+      <a-mixin id="spin" animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-mixin>
+
+      <a-mixin id="blink" blink-controls="button:trigger;rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
       <a-mixin id="handle-visual" geometry="width:0.05;height:0.05;depth:0.2"></a-mixin>
+      <!-- Templates -->
+      <!-- As a substitution for a proper avatar we just use a robot head and hands for now -->
+      <a-asset-item id="RobotHead" src="../assets/gltf/avatarHead.glb"></a-asset-item>
+      <!-- Avatar -->
+      <template id="rig-template">
+        <a-entity
+          networked-audio-source><!-- <a-box color="#FFF" position="0 1.4 0" material="" networked-video-source="" geometry="" scale="0.325 0.325 0.325"></a-box>  --></a-entity>
+      </template>
+
+      <template id="head-template">
+        <a-entity class="cam" gltf-model="#RobotHead" scale="1 1 1"></a-entity>
+      </template>
+
+      <!-- espejo -->
+      <template id="sphere-template">
+        <a-entity id="espejo" geometry="primitive: plane; segments-height:10; segments-width: 10;" color="green" position="1.349 1.659 -2.124" rotation="0 -32.150 0" scale="4 4 4" mirror="repeat: true; resolution: 1024; interval: 100;">
+      </template>
+
+      <!-- /Templates -->
     </a-assets>
 
     <a-entity
@@ -77,6 +148,8 @@
         camera="near:0.01;"
         look-controls="pointerLockEnabled: false"
         position="0 1.65 0"
+        networked="template:#head-template;"
+        visible="true"
       ></a-entity>
       
       <a-entity xr-follow>
@@ -165,12 +238,9 @@
     </a-entity>
 
     <!-- This plane is only visible in AR and follows the given target to provide it with shadows.-->
-		<a-light id="dirlight" shadow-camera-automatic="[ar-shadow-helper],#table,#ladder" intensity="0.8" light="castShadow:true;type:directional" position="0 3 -6"></a-light>
-    <a-entity ar-shadow-helper="target:#my-ar-objects;light:#dirlight;" visible="false">
-      <a-plane rotation="-90 0 0" shadow="cast:false;receive:true;" position="0 0.01 0" material="shader:shadow; depthWrite:false; opacity:0.9;"></a-plane>
-    </a-entity>
+		<a-light id="dirlight" shadow-camera-automatic="#table,#ladder" intensity="0.8" light="castShadow:true;type:directional" position="0 3 -6"></a-light>
+    
 
-    <a-entity hide-on-enter-ar position="0 -0.2 0" environment="lighting:none;shadow:true;preset: osiris;"></a-entity>
 		<a-entity rotation="0 -50 0" position="0 0 0" hide-on-enter-ar>
       <a-box 
         position="-5.148 -0.1 -0.355"
@@ -222,22 +292,59 @@
 
     <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
 
-	</a-scene>
+    <!-- orbes en 360 -->
+    <a-sphere id="orb_place1" scale="5 5 5" position="33.255 9.160 -37.982" material="side: double;src: #1"></a-sphere>
+    <a-sphere id="orb_place2" scale="5 5 5" position="23.524 9.160 -43.558" material="side: double;src: #2"></a-sphere>
+    <!-- espejo -->
+    <a-entity
+        id="sphere"
+        networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene"
+      ></a-entity>
+    <!-- iluminacion -->
+    <a-entity id="ambientlight" light="type: ambient; intensity: .95"></a-entity>
+    <!-- oceanos -->
+    <a-ocean id="ourOcean" position="-47.35699 -1.840 40.11002" scale="12 12 12" width="40" depth="40" opacity=".55"
+      ocean="color: #63b3d9; density: 45; amplitude: -0.2; speed: 0.95; speedVariance: 0.2"></a-ocean>
+    <!-- sky -->
+    <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0"></a-sky>
 
+	</a-scene>
+  <!-- audio -->
+  <audio id="playAudio" autoplay loop>
+    <source src="../assets/mp3/oceanSound.mp3" type="audio/mpeg">
+  </audio>
 	<div id="dom-overlay">
-    <h1>
-      Hello World
-    </h1>
+    <!-- titulo -->
+    <div id="splash">
+      <div class="loading"></div>
+      <div class="start-button">
+        <Font color="limegreen">Metaverso Inandina</Font>
+      </div>
+    </div>
+    <section style="display: inline-block; background: lavenderblush; color: #333333; border-radius: 1em; padding: 1em; margin:0; accent-color: hotpink; position: fixed; bottom: 60px; left: 2px;" id="my-interface">
+      <h2>Opciones</h2>
+      <fieldset style="border:none;">
+        <legend>Movimientos</legend>
+        <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-teleport" name="thumbstick" value="teleport" checked><label for="thumbstick-teleport"> Saltar</label>
+        <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-move" name="thumbstick" value="move"><label for="thumbstick-move"> Caminar</label>
+      </fieldset>
+      <fieldset style="border:none;">
+        <legend>Configuración</legend>
+        <div class="button-container">
+          <button id="mic-btn" type="button" class="button">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button id="muteButton" type="button" class="button">
+            <i class="fas fa-volume-down"></i>
+          </button>
+          <button onclick="AFRAME.scenes[0].exitVR()">
+            salir
+          </button>
+        </div>
+      </fieldset>      
+    </section>
 		<div class="overlay-footer">
-      <section style="display: inline-block; background: lavenderblush; color: #333333; border-radius: 1em; padding: 1em; margin:0; accent-color: hotpink;" id="my-interface">
-        <h2>Settings</h2>
-        <fieldset style="border:none;">
-          <legend>Thumbstick Behaviour</legend>
-          <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-teleport" name="thumbstick" value="teleport" checked><label for="thumbstick-teleport"> Teleport</label>
-          <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-move" name="thumbstick" value="move"><label for="thumbstick-move"> Move</label>
-        </fieldset>
-        <button onclick="AFRAME.scenes[0].exitVR()" style="display: block;">Exit Immersive</button>
-      </section>
+      
       
       <!-- HTML form logic -->
       <script>
@@ -266,7 +373,7 @@
           cameraRig.setAttribute('movement-controls', 'enabled', true);
         });
       </script>
-      <div id="dom-overlay-message">Enter AR or VR to start.</div>
+      <div id="dom-overlay-message">Iniciar VR</div>
     </div>
 	</div>
   
