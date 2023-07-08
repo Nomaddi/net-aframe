@@ -14,21 +14,9 @@
            property: 'color'
          }
        ]
-     });
+      });
 
    }
-   if (!NAF.schemas.hasTemplate('#sphere-template')) {
-       NAF.schemas.add({
-         template: '#sphere-template',
-         components: [
-           'position',
-           {
-             component: 'material',
-             property: 'color'
-           }
-         ]
-       });
-     }
 
    const components = NAF.schemas.getComponentsOriginal(template);
    return components;
