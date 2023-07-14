@@ -44,19 +44,22 @@ function changeOrb(orb_num) {
     removeScene();
 }
 function removeScene() {
-
-
-    //fin verificacion
-
-
     document.getElementById('building').setAttribute('visible', false);
     document.getElementById('ourOcean').setAttribute('visible', false);
+    document.getElementById('ui').setAttribute('visible', false);
+    document.getElementById('my-ar-objects').setAttribute('visible', false);
+    document.getElementById('objetos').setAttribute('visible', false);
+    document.getElementById('orbesIn').setAttribute('visible', false);
     document.getElementById('ReturnIsland').setAttribute('visible', true);
 }
 function restoreScene() {
     document.getElementById('orbSky').setAttribute('material', 'src: #orb1');
     document.getElementById('building').setAttribute('visible', true);
-    document.getElementById('ourOcean').setAttribute('visible', true);    
+    document.getElementById('ourOcean').setAttribute('visible', true);  
+    document.getElementById('ui').setAttribute('visible', true);
+    document.getElementById('my-ar-objects').setAttribute('visible', true);
+    document.getElementById('objetos').setAttribute('visible', true);
+    document.getElementById('orbesIn').setAttribute('visible', true);  
     document.getElementById('ReturnIsland').setAttribute('visible', false);
 }
 function sqrImg(imgNum) {
