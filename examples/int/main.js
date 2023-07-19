@@ -242,7 +242,7 @@ window.addEventListener("DOMContentLoaded", function() {
       this.addEventListener(
         "ar-hit-test-start",
         function() {
-          message.innerHTML = `Scanning environment, finding surface.`;
+          message.innerHTML = `Entorno de escaneo, encontrando superficie.`;
         },
         { once: true }
       );
@@ -251,7 +251,7 @@ window.addEventListener("DOMContentLoaded", function() {
       this.addEventListener(
         "ar-hit-test-achieved",
         function() {
-          message.innerHTML = `Select the location to place<br />By tapping on the screen or selecting with your controller.`;
+          message.innerHTML = `Seleccione la ubicación para colocar<br />Tocando en la pantalla o seleccionando con el controlador.`;
         },
         { once: true }
       );
@@ -261,7 +261,7 @@ window.addEventListener("DOMContentLoaded", function() {
         "ar-hit-test-select",
         function() {
           // Object placed for the first time
-          message.textContent = "Well done!";
+          message.textContent = "Bien hecho!";
         },
         { once: true }
       );
@@ -269,7 +269,7 @@ window.addEventListener("DOMContentLoaded", function() {
   });
 
   sceneEl.addEventListener("exit-vr", function() {
-    message.textContent = "Exited Immersive Mode";
+    message.textContent = "Salió del modo VR";
   });
 });
 
