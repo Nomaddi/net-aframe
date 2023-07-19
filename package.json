@@ -25,6 +25,7 @@
   },
   "repository": "networked-aframe/networked-aframe",
   "dependencies": {
+    "aframe-in-app-browser": "^0.0.5",
     "buffered-interpolation": "Infinitelee/buffered-interpolation#5bb18421ebf2bf11664645cdc7a15bd77ee2156b",
     "express": "^4.17.3",
     "open-easyrtc": "^2.0.20",
