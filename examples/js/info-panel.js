@@ -47,7 +47,7 @@ AFRAME.registerComponent('info-panel', {
     this.el.object3D.scale.set(1, 1, 1);
     if (AFRAME.utils.device.isMobile()) { this.el.object3D.scale.set(1.4, 1.4, 1.4); }
     this.el.object3D.visible = true;
-    this.fadeBackgroundEl.object3D.visible = true;
+    this.fadeBackgroundEl.object3D.visible = false;
 
     if (this.movieImageEl) { this.movieImageEl.object3D.visible = false; }
     this.movieImageEl = movieInfo.imgEl;
