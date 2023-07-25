@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Links</title>
+    <meta name="description" content="Links • A-Frame">
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-tooltip-component@0.1.2/dist/aframe-tooltip-component.min.js"></script>
+    <!-- <script src="js/components/camera-position.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
+    <!-- <script src="../../js/info-message.js"></script> -->
+  </head>
+  <body>
+    <a-scene stats
+      fog="color: #241417; near: 0; far: 30;"
+      raycaster="objects: .raycastable, .clickable, far: 100; objects: [link];"
+      cursor="rayOrigin: mouse"
+      camera-position
+      environment="preset: forest">
+      <a-assets>
+        <img id="thumbIndex" crossOrigin="anonymous" src="https://cdn.aframe.io/link-traversal/thumbs/index.png">
+        <img id="thumbJapan" crossOrigin="anonymous" src="https://cdn.aframe.io/link-traversal/thumbs/japan.png">
+        <img id="thumbEgypt" crossOrigin="anonymous" src="https://cdn.aframe.io/link-traversal/thumbs/egypt.png">
+        <a-mixin id="blink"
+        blink-controls="button:grip;rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+
+      </a-assets>
+      <a-link href="meta.html" class="raycastable" position="0 1.5 -1.0" image="#thumbJapan"></a-link>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="0 2 0"></a-entity>
+      <a-entity id="leftHand" mixin="blink" laser-controls="hand: left" raycaster="objects: .raycastable, .clickable, [html];showLine:false;" ></a-entity>
+      <a-entity id="rightHand"></a-entity>
+    </a-scene>
+  </body>
+</html>

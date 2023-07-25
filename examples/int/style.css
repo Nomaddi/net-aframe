@@ -80,3 +80,8 @@ body {
   font-family: monospace;
   color: white;
 }
+
+/* Estilos CSS para la interfaz de carga */
+.a-loader-title {
+  color: red;
+}

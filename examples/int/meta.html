@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://www.nomaddi.com/" />
   <meta name="description" content="Metaverso Inandina, 2023." />
   <meta property="og:description" content="A sample scene for working with WebXR Hand Tracking" />
-  <meta property="og:image" content="https://www.inandina.edu.co/wp-content/uploads/2021/04/Logo-Nomaddi.png" />
+  <meta property="og:image" content="https://www.inandina.edu.co/wp-content/uploads/2021/04:/Logo-Nomaddi.png" />
 
   <script>
     // WebXR requiere https: para funcionar, así que me aseguro de ser redirigido si es necesario.
@@ -54,8 +54,6 @@
   <!-- Aparecer random -->
   <script src="../js/spawn-in-circle.component.js"></script>
 
-  <!-- oceano -->
-  <script src="../js/oceano.js"></script>
 
   <!-- objetos online -->
   <script src="../js/online.js"></script>
@@ -67,14 +65,12 @@
   <!-- click con pc -->
   <script src="../js/highlight.js"></script>
 
-  <!-- informacio -->
-  <script src="../js/info-panel.js"></script>
 
-  <!-- orbes -->
-  <script src="../js/orbes.js"></script>
 
   <!-- redireccionamiento -->
-  <script src="../js/url.js"></script>  
+  <script src="../js/url.js"></script>
+
+
 
 
 
@@ -84,45 +80,37 @@
 </head>
 
 <body>
-  <a-scene stats id="scene-vr" networked-scene="
+  <a-scene stats loading-screen="enabled:false" id="scene-vr" networked-scene="
         room: Metaverso;
         debug: true;
         adapter: easyrtc;
         audio: true;
-        video: false;"
-    cursor="rayOrigin: mouse; fuse: false"
+        video: false;" cursor="rayOrigin: mouse; fuse: false"
     physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
-    webxr="overlayElement:#dom-overlay;" background="color:skyblue;" reflection="directionalLight:#dirlight;"
+    webxr="overlayElement:#dom-overlay;" background="color:skyblue;"
     renderer="antialias:true;highRefreshRate:true;alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
-    raycaster="objects: .raycastable, .clickable, .fountian_ball, .cylinder4, a-link, a-sphere" shadow="type: pcfsoft"
+    raycaster="objects: .raycastable, .clickable, [link]" shadow="type: pcfsoft"
     gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;" ar-cursor>
-    <a-assets timeout="50000">
+
+    </a-entity>
+    <a-assets>
       <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverso.glb"></a-asset-item>
       <a-asset-item id="navmesh-glb" src="../assets/gltf-Jhon/mesh.glb"></a-asset-item>
+      <a-asset-item id="chair" src="../assets/gltf-Jhon/chair.glb"></a-asset-item>
+      <a-asset-item id="aviso1" src="../assets/gltf-Jhon/aviso1.glb"></a-asset-item>
+      <a-asset-item id="aviso2" src="../assets/gltf-Jhon/aviso2.glb"></a-asset-item>
       <a-asset-item id="right-gltf"
         src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
       <a-asset-item id="left-gltf"
         src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-left-hand-webxr/model.gltf"></a-asset-item>
       <a-asset-item id="watch-gltf"
         src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
-      <a-asset-item id="sword-gltf"
-        src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/katana.glb?v=1648465043810"></a-asset-item>
-      <a-asset-item id="watergun-gltf"
-        src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watergun.glb?v=1646916260646"></a-asset-item>
       <a-asset-item id="stew-gltf"
         src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/vintage_grandfather_clock_01_1k-v2.glb?v=1647265174189"></a-asset-item>
       <a-asset-item id="table-gltf"
         src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/small_wooden_table_01_1k-v1.glb?v=1647263187998"></a-asset-item>
-      <a-asset-item id="clock-gltf"
-        src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/vintage_grandfather_clock_01_1k-v2.glb?v=1647265174189"></a-asset-item>
       <a-asset-item id="ladder-gltf"
         src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/ladder.glb?v=1648465045608"></a-asset-item>
-      <img id="bake" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/Bake(3).webp?v=1644331344700"
-        crossorigin="anonymous">
-      <!-- imagenes 360 -->
-      <img crossorigin="anonymous" id="orb1" src="../assets/360/image/skyland2.jpg">
-      <img crossorigin="anonymous" id="1" src="../assets/360/1.jpeg">
-      <img crossorigin="anonymous" id="2" src="../assets/360/2.jpeg">
       <a-mixin id="animations"
         animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
       <!--
@@ -145,26 +133,37 @@
       <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous" />
       <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg"
         crossorigin="anonymous" />
-        <!-- contenido para las orbes -->
-        <img crossorigin="anonymous" id="orb5" src="../assets/360/image/theBeach.jpg">
-        <img crossorigin="anonymous" id="orb7" src="../assets/360/image/SAM_101_0152.jpg">
-        <img crossorigin="anonymous" id="orb8" src="../assets/360/image/SAM_101_0128.jpg">
-        <img crossorigin="anonymous" id="orbthumb5" src="../assets/360/image/thumb/theBeach_thumb.jpg">
-        <img crossorigin="anonymous" id="orbthumb7" src="../assets/360/image/thumb/SAM_101_0152_thumb.jpg">
-        <img crossorigin="anonymous" id="orbthumb8" src="../assets/360/image/thumb/SAM_101_0128_thumb.jpg">
-        <img crossorigin="anonymous" id="imgthumb5" src="../assets/360/image/imgthumb/theBeach.jpg">
-        <img crossorigin="anonymous" id="imgthumb7" src="../assets/360/image/imgthumb/SAM_101_0152_imgthumb.jpg">
-        <img crossorigin="anonymous" id="imgthumb8" src="../assets/360/image/imgthumb/SAM_101_0128_imgthumb.jpg">
-        <img crossorigin="anonymous" id="ReturnBack" src="../assets/img/ReturnBack.png">
+      <!-- img-360 -->
+      <img id="patas" src="../assets/360/jhon-360/solopatas.jpg">
+      <img id="motos" src="../assets/360/jhon-360/motos.jpg">
+      <img id="inandina" src="../assets/360/jhon-360/inandina.png">
+
       <!-- archivos para el reproductor -->
-      <img crossorigin="anonymous" src="../assets/img/play2.png" id="play" >
-        <img crossorigin="anonymous" src="../assets/img/pause.png" id="pause" >
-        <img crossorigin="anonymous" src="../assets/img/volume-normal.png" id="volume-normal" >
-        <img crossorigin="anonymous" src="../assets/img/volume-mute.png" id="volume-mute" >
-        <img crossorigin="anonymous" src="../assets/img/seek-back.png" id="seek-back" >
+      <img crossorigin="anonymous" src="../assets/img/volume-mas.png" id="volume-mas">
+      <img crossorigin="anonymous" src="../assets/img/volume-menos.png" id="volume-menos">
       <!-- imagenes normales -->
-      <img crossorigin="anonymous" id="artwork1" src="../assets/img/inandina.jpg">
+      <img crossorigin="anonymous" id="artwork1" src="../assets/img/nomaddi.png">
+      <img crossorigin="anonymous" id="img-patas" src="../assets/img/solopatas.png">
+      <img crossorigin="anonymous" id="img-motos" src="../assets/img/motos.png">
+      <img crossorigin="anonymous" id="img-inandina" src="../assets/img/inandina.jpg">
       <video id="video1" src="../assets/video/VRpitch.mp4"></video>
+      <video id="video-patas" src="../assets/video/motos.mp4"></video>
+      <video id="video-motos" src="../assets/video/patas.mp4"></video>
+      <video id="video-inandina" src="../assets/video/inandina.mp4"></video>
+      <!-- imagenes solo patas -->
+      <img crossorigin="anonymous" id="poster-patas-1" src="../assets/img/patas/solo-patas-1.jpg">
+      <img crossorigin="anonymous" id="poster-patas-2" src="../assets/img/patas/solo-patas-2.jpg">
+      <img crossorigin="anonymous" id="poster-patas-3" src="../assets/img/patas/solo-patas-3.jpg">
+      <!-- imagenes solo motos -->
+      <img crossorigin="anonymous" id="poster-motos-1" src="../assets/img/motos/poster-motos-1.jpg">
+      <img crossorigin="anonymous" id="poster-motos-2" src="../assets/img/motos/poster-motos-2.jpg">
+      <img crossorigin="anonymous" id="poster-motos-3" src="../assets/img/motos/poster-motos-3.jpg">
+      <!-- imagenes solo inandina -->
+      <img crossorigin="anonymous" id="poster-inandina-1" src="../assets/img/inandina/poster-inandina-1.jpg">
+      <img crossorigin="anonymous" id="poster-inandina-2" src="../assets/img/inandina/poster-inandina-2.png">
+      <img crossorigin="anonymous" id="poster-inandina-3" src="../assets/img/inandina/poster-inandina-3.jpg">
+
+
       <!-- fin -->
       <a-mixin id="marble" geometry="primitive: sphere" scale=".30 .30 .30"
         animation__rotation="startEvents: mouseenter; pauseEvents: mouseleave; resumeEvents: mouseenter; property: rotation; to: 0 360 0; loop: true; dur: 10000"
@@ -178,189 +177,216 @@
 
       <a-mixin id="handle-visual" geometry="width:0.05;height:0.05;depth:0.2"></a-mixin>
       <!-- mixin para imagenes -->
-      <a-mixin id="frame" geometry="primitive: plane; width: 0.5783552; height: 0.8192"
+      <a-mixin id="frame" geometry="primitive: plane; width: 1.14; height: 1.62"
         material="color: white; shader: flat"
         animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
         animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"></a-mixin>
-      <a-mixin id="poster" geometry="primitive: plane; width: 0.544768; height: 0.786432"
+      <a-mixin id="poster" geometry="primitive: plane; width: 1.096; height: 1.565"
         material="color: white; shader: flat" material="shader: flat" position="0 0 0.005"></a-mixin>
-      <a-mixin id="movieImage" geometry="primitive: plane; width: 1.5; height: 0.81"
+      <a-mixin id="movieImage" geometry="primitive: plane; width: 3.0; height: 1.56"
         material="src: #ponyo; shader: flat; transparent: true" position="0 0.495 0.002"></a-mixin>
       <!-- Templates -->
       <!-- As a substitution for a proper avatar we just use a robot head and hands for now -->
       <a-asset-item id="RobotHead" src="../assets/gltf/avatarHead.glb"></a-asset-item>
       <!-- Avatar -->
       <template id="rig-template">
-        <a-entity
-          networked-audio-source><!-- <a-box color="#FFF" position="0 1.4 0" material="" networked-video-source="" geometry="" scale="0.325 0.325 0.325"></a-box>  --></a-entity>
+        <a-entity networked-audio-source></a-entity>
       </template>
 
       <template id="head-template">
         <a-entity class="cam" gltf-model="#RobotHead" scale="1 1 1"></a-entity>
       </template>
-
-
       <!-- /Templates -->
     </a-assets>
 
+
+
+
     <a-entity id="cameraRig" simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
-      networked="template:#rig-template;attachTemplateToLocal:true;" movement-controls="speed:0.15;camera:#head;"
-      position="-1 0 1" rotation="0 45 0" origin-on-ar-start>
+      networked="template:#rig-template;attachTemplateToLocal:true;" movement-controls="speed:0.2;camera:#head;"
+      position="8.333 0.308 16.392" rotation="0 45 0">
       <!-- camera -->
-      <a-entity id="head" camera="near:0.01;" look-controls="pointerLockEnabled: false" position="0 1.65 0"
-        networked="template:#head-template;" visible="true"></a-entity>
+      <a-entity id="head" camera="near:0.01;" look-controls="pointerLockEnabled: false; touchEnabled: true;"
+        position="0 1.65 0" networked="template:#head-template;" visible="true"
+        sphere-collider='radius:0.440'></a-entity>
 
-      <a-entity xr-follow>
-        <a-gltf-model id="sword" src="#sword-gltf" shadow="receive:false;" data-pick-up class="magnet-left magnet-right"
-          position="-0.2 -0.4 0" rotation="-30 180 0" scale="0.6,0.6,1"
-          animation__restore_position="startEvents:putdown;pauseEvents:pickup;property:position;to:-0.2 -0.4 0;easing:easeOutBack;"
-          animation__restore_rotation="startEvents:putdown;pauseEvents:pickup;property:rotation;to:-30 180 0;easing:easeOutBack;">
-          <a-box physx-body="type: kinematic;" width="0.03" height="0.03" depth="0.790" rotation="-16 0 0"
-            position="0 -0.062 -0.331" visible="false"></a-box>
-        </a-gltf-model>
-        <a-gltf-model shadow="receive:false;" id="watergun" src="#watergun-gltf"
-          physx-body-from-model="type: kinematic;" class="magnet-left magnet-right" data-pick-up position="0.2 -0.4 0"
-          rotation="30 180 0" linear-constraint="axis:0 1 0;min:-0.15;max:0;part:Slider;"
-          animation__restore_position="startEvents:putdown;pauseEvents:pickup;property:position;to:0.2 -0.4 0;easing:easeOutBack;"
-          animation__restore_rotation="startEvents:putdown;pauseEvents:pickup;property:rotation;to:30 180 0;easing:easeOutBack;">
-          <a-entity id="watergun-slider-magnet" rotation="-74 0 0" attach-to-model="Slider"></a-entity>
-        </a-gltf-model>
+      <a-entity id="leftHand" data-left="ray" mixin="blink" data-no-magnet laser-controls="hand: left"
+        raycaster="objects: .raycastable, .clickable, [html];showLine:false;">
+        <a-entity html="html:#my-interface;cursor:#cursor" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0"
+          scale="0.7 0.7 0.7"></a-entity>
       </a-entity>
-      <a-entity id="leftHand" cursor="" data-left="ray" mixin="blink" data-no-magnet  laser-controls="hand: left" raycaster="objects: .raycastable, .clickable, [html];showLine:false;">
-        <a-entity html="html:#my-interface;cursor:#cursor" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0" scale="0.7 0.7 0.7"></a-entity>
-      </a-entity>
-      <a-entity id="rightHand" cursor="" data-right="ray" mixin="blink" data-no-magnet  laser-controls="hand: right" raycaster="objects: .clickable, .raycastable, [html];far:0.3;showLine:false;lineColor:black;" line="color: #118A7E"></a-entity>
+      <a-entity id="rightHand" data-right="ray" mixin="blink" data-no-magnet laser-controls="hand: right"
+        raycaster="objects: .clickable, .raycastable, [html];far:0.3;showLine:false;lineColor:black;"
+        line="color: #118A7E"></a-entity>
 
     </a-entity>
-    <!-- portales -->
-    <a-link href="../template.html" class="raycastable" title="My Homepage" image="#orbthumb7" position="0 1.710 -3.029" rotation="0 -29.240 0"></a-link>
-
-    <a-entity id="my-ar-objects" position="-6 0 1">
-      <!-- "Dusty Piano" (https://skfb.ly/66EPx) by Vincent074 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). -->
-      <a-gltf-model id="piano" position="0.421 0 19.617" rotation="0 196.300 0" shadow="receive:false;cast:true;"
-        src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/piano.glb?v=1644414775118">
-        <a-plane rotation="-90 0 0" width="1.5" height="0.6" class="navmesh-hole" visible="false"></a-plane>
-      </a-gltf-model>
+    <!-- solo pata -->
+    <!-- portal -->
+    <a-link id="portal-1" href="forest.html" image="#patas" scale="1.5 1.5 1.5" position="11.834 2.442 33.401"
+      rotation="0 25.010 0" link="titleColor:black;title:Solo patas"></a-link>
+    <!-- imagen -->
+    <a-curvedimage src="#img-patas" class="clickable" height="3.0" radius="5.7" theta-length="72"
+      onclick="openInNewTab('https://www.instagram.com/solo_patas_cmv/')" rotation="0 -69.480 0" scale="0.5 0.5 0.5"
+      position="7.493 3.810 30.019"></a-curvedimage>
+    <!-- video -->
+    <a-curvedimage src="#video-patas" id="video-screen1" height="3.0" radius="8.780" theta-length="66.070"
+      rotation="0 151.880 0" position="1.675 1.997 0.927" scale="0.520 0.800 0.800">
+    </a-curvedimage>
+    <a-sphere id="activador-patas" position="3.076 0.795 -0.144" scale="1 1 1.288" radius="5" color="#ECECEC"
+      visible="false" video-controller="videoId: video-patas;"></a-sphere>
+    <a-entity id="volumen" position="2.087 1.159 -5.230" rotation="0 21.717 0">
+      <a-image class="clickable" onclick="changeVolume('video-patas', 0.1)" id="mas" width="0.4" height="0.4"
+        src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
+      <a-image class="clickable" onclick="changeVolume('video-patas', -0.1)" id="menos" width="0.4" height="0.4"
+        src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
     </a-entity>
-
     <!-- galeria -->
-    <a-entity id="background" position="-12.722 1.600 14.900" geometry="primitive: sphere; radius: 20.0"
-      material="color: red; side: back; shader: flat" scale="0.001 0.001 0.001" visible="false" class="raycastable">
-    </a-entity>    
-    <a-entity
-        position="-12.722 1.6 14.900"
-        camera look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false">
-        <a-entity
-          id="fadeBackground"
-          geometry="primitive: sphere; radius: 20.0"
-          material="color: black; side: back; shader: flat; transparent: true; opacity: 0.6" visible="false">
-        </a-entity>
-      </a-entity> 
-    <a-entity id="ui" position="-11.375 2.313 17.327" rotation="0 115.888 0" scale="2 2 2">
-      <!-- Poster menu -->
-      <a-entity id="menu" highlight>
-        <a-entity id="karigurashiButton" position="-0.8 0 0" mixin="frame" class="raycastable menu-button">
-          <a-entity material="src: #karigurashiPoster;" mixin="poster"></a-entity>
-        </a-entity>
 
-        <a-entity id="kazetachinuButton" position="0 0 0" mixin="frame" class="raycastable menu-button">
-          <a-entity material="src: #kazetachinuPoster" mixin="poster"></a-entity>
-        </a-entity>
 
-        <a-entity id="ponyoButton" position="0.8 0 0" mixin="frame" class="raycastable menu-button">
-          <a-entity material="src: #ponyoPoster" mixin="poster"></a-entity>
-        </a-entity>
-      </a-entity>
-      <!-- Info panel of the selected movie. -->
-      <a-entity
-      id="infoPanel"
-      position="0 0 0.5"
-      info-panel
-      visible="false"
-      scale="0.001 0.001 0.001"
-      geometry="primitive: plane; width: 1.5; height: 1.8"
-      material="color: #333333; shader: flat; transparent: false" class="raycastable">
-      <a-entity id="ponyoMovieImage" mixin="movieImage" material="src: #ponyo" visible="false"></a-entity>
-      <a-entity id="kazetachinuMovieImage" mixin="movieImage" material="src: #kazetachinu" visible="false"></a-entity>
-      <a-entity id="karigurashiMovieImage" mixin="movieImage" material="src: #karigurashi" visible="false"></a-entity>
-      <a-entity id="movieTitle"
-        position="-0.68 -0.1 0"
-        text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"></a-entity>
-      <a-entity id="movieDescription"
-        position="-0.68 -0.2 0"
-        text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></a-entity>
+    <!-- 3 motos -->
+    <!-- portal -->
+    <a-link id="portal-2" href="https://mm18cendales.github.io/proyecto1/" image="#motos" scale="1.5 1.5 1.5"
+      position="6.831 2.052 -3.905" rotation="0 -64.000 0" link="titleColor:black;title:3 Motos"></a-link>
+    <!-- imagen -->
+    <a-curvedimage src="#img-motos" class="clickable" height="3.0" radius="5.7" theta-length="72"
+      onclick="openInNewTab('https://3motos.co/')" rotation="0 170.550 0" scale="0.5 0.5 0.5 "
+      position="3.353 4.082 -3.132"></a-curvedimage>
+    <!-- video -->
+    <a-curvedimage src="#video-motos" id="video-screen2" height="3.0" radius="8.780" theta-length="66.070"
+      rotation="0 -76.190 0" position="10.654 1.801 28.243" scale="0.520 0.800 0.800">
+    </a-curvedimage>
+    <a-sphere id="activador-motos" position="8.920 0.795 29.426" scale="1.134 1 1 " radius="5" color="#ECECEC"
+      visible="false" video-controller="videoId: video-motos;"></a-sphere>
+    <a-entity id="volumen" position="5.786 0.845 32.026" rotation="0 150.000 0">
+      <a-image class="clickable" onclick="changeVolume('video-motos', 0.1)" id="mas" width="0.4" height="0.4"
+        src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
+      <a-image class="clickable" onclick="changeVolume('video-motos', -0.1)" id="menos" width="0.4" height="0.4"
+        src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
     </a-entity>
+
+    <!-- 3 inandina -->
+    <!-- portal -->
+    <a-link id="portal-3" href="https://sidequestvr.com/app/20328/firegate-vr" image="#inandina" scale="1.5 1.5 1.5"
+      position="-12.965 2.420 14.537" rotation="0 114.150 0" link="titleColor:black;title:Inandina"></a-link>
+    <!-- imagen -->
+    <a-curvedimage src="#img-inandina" class="clickable" height="3.0" radius="5.7" theta-length="72"
+      onclick="openInNewTab('https://www.inandina.edu.co/')" rotation="0 -129.920 0" scale="0.5 0.5 0.5 "
+      position="-10.941 4.650 11.946"></a-curvedimage>
+    <!-- video -->
+    <a-curvedimage src="#video-inandina" id="video-screen3" height="3.0" radius="20" theta-length="26.920"
+      rotation="0 -80.000 0" position="3.842 2.344 13.559" scale="0.520 0.800 0.800">
+    </a-curvedimage>
+    <a-sphere id="activador-inandina" position="-7.994 0.795 17.014" scale="1.608 1 1 " radius="5" color="#ECECEC"
+      visible="false" video-controller="videoId: video-inandina;"></a-sphere>
+    <a-entity id="volumen" position="-10.962 1.405 18.505" rotation="0 119.160 0">
+      <a-image class="clickable" onclick="changeVolume('video-inandina', 0.1)" id="mas" width="0.4" height="0.4"
+        src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
+      <a-image class="clickable" onclick="changeVolume('video-inandina', -0.1)" id="menos" width="0.4" height="0.4"
+        src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
     </a-entity>
+
+    <!-- ejemplo de objetos que no se traspasan"Dusty Piano" (https://skfb.ly/66EPx) by Vincent074 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). -->
+    <a-gltf-model id="piano" position="-13.429 0 11.284" rotation="0 70 0" shadow="receive:false;cast:true;"
+      src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/piano.glb?v=1644414775118">
+      <a-plane rotation="-90 0 0" width="1.5" height="0.6" class="navmesh-hole" visible="false"></a-plane>
+    </a-gltf-model>
+<!-- Galería 1 -->
+<a-entity id="gallery1">
+  <a-entity position="-1.283 4.673 -3.211" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img1" src="#poster-motos-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+  </a-entity>
+  <a-entity position="-1.860 3.116 -2.221" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img2" src="#poster-motos-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+  </a-entity>
+  <a-entity position="-1.283 1.579 -3.211" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img3" src="#poster-motos-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+  </a-entity>
+  <a-image id="zoom" visible="true" src="#poster-motos-3" width="3.1" height="4" position="-2.075 2.992 0.087" rotation="0 90 0" class="raycastable menu-button"></a-image>
+</a-entity>
+
+<!-- Galería 2 -->
+<a-entity id="gallery2" position="15.474 -0.453 31.046" rotation="0 220 0">
+  <a-entity position="-1.283 4.673 2.948" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img4" src="#poster-patas-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+  </a-entity>
+  <a-entity position="-1.860 3.116 3.837" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img5" src="#poster-patas-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+  </a-entity>
+  <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img6" src="#poster-patas-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+  </a-entity>
+  <a-image id="zoom2" visible="true" src="#poster-patas-1" width="3.1" height="4" position="0.381 2.992 1.317" rotation="0 35.590 0" class="raycastable menu-button"></a-image>
+</a-entity>
+<!-- Galería 3 -->
+<a-entity id="gallery3" position="-10.688 -0.453 22.494" rotation="0 120 0">
+  <a-entity position="-1.283 4.673 2.910" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img4" src="#poster-inandina-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+  </a-entity>
+  <a-entity position="-1.283 3.116 2.910" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img5" src="#poster-inandina-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+  </a-entity>
+  <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
+    <!-- Plano que actúa como el marco blanco -->
+    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
+    <!-- Imagen superpuesta en el centro del marco -->
+    <a-image id="img6" src="#poster-inandina-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+  </a-entity>
+  <a-image id="zoom3" visible="true" src="#poster-inandina-3" width="3.1" height="4" position="-1.763 3.2 5.073" rotation="0 96 0" class="raycastable menu-button"></a-image>
+</a-entity>
+
+    
+    
     <!-- fin galeria -->
-    <!-- imagenes 360 -->
-    <a-entity id="orbes" position="0 0 2.860">
-      <a-sphere id="orb_place5" class="clickable" mixin="marble" position="9.162 0.83949 30.520" rotation="0 45 0" material="src: #orbthumb5" onclick="playSwoosh();changeOrb(5);STOPplay360();"  onmouseenter="sqrImg(5);" onmouseleave="dspImg(5);"></a-sphere>
-      <a-sphere id="orb_place7" class="clickable" mixin="marble" position="11.144 0.83949 28.539" rotation="0 45 0" material="src: #orbthumb7" onclick="playSwoosh();changeOrb(7);STOPplay360();"  onmouseenter="sqrImg(7);" onmouseleave="dspImg(7);"></a-sphere>
-      <a-sphere id="orb_place8" class="clickable" mixin="marble" position="7.205 0.83949 28.601" rotation="0 45 0" material="src: #orbthumb8" onclick="playSwoosh();changeOrb(8);STOPplay360();"  onmouseenter="sqrImg(8);" onmouseleave="dspImg(8);"></a-sphere>
-      <a-entity id="OrbName_place5" material="color: #F9CF45" class="clickable" position="8.143 4.241 25.810" rotation="0 180 0" text-geometry="value: The Beach; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('The Beach');" visible="false"></a-entity>
-      <a-entity id="OrbName_place7" material="color: #F9CF45" class="clickable" position="8.143 4.241 25.810" rotation="0 180 0" text-geometry="value: Pier and Bridge; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('Pier and Bridge');" visible="false"></a-entity>
-      <a-entity id="OrbName_place8" material="color: #F9CF45" class="clickable" position="8.143 4.241 25.810" rotation="0 180 0" text-geometry="value: Downtown SF; size: 0.12; font: #optimerBoldFont" onclick="playBlip();speakInfo('San Francisco Market Street');" visible="false"></a-entity>
-      <a-plane id="orb_2Dimg5" position="8.856 2.749 27.959" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb5; side: double"  visible="false"></a-plane>
-      <a-plane id="orb_2Dimg7" position="8.856 2.749 27.959" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb7; side: double" visible="false"></a-plane>
-      <a-plane id="orb_2Dimg8" position="8.856 2.749 27.959" scale="3.368 2.641 0.1" rotation="0 180 0" material="src: #imgthumb8; side: double" visible="false"></a-plane>
-      <a-box id="ReturnIsland" class="clickable" position="9.295 0.079 29.529" rotation="-27.12095723251752 -180 0" material="src: #ReturnBack" scale="0.3 0.3 0.3" onclick="restoreScene();" shadow visible="false"></a-box>
-    </a-entity>
-      
-    <!-- This plane is only visible in AR and follows the given target to provide it with shadows.-->
-    <a-light id="dirlight" shadow-camera-automatic="#table,#ladder" intensity="0.8"
-      light="castShadow:true;type:directional" position="0 3 -6"></a-light>
 
     <!-- cuadros -->
     <!-- <a-plane id="artworkPosition1" class="clickable" position="-15.538 1.9 0.059" scale="5 5 5" rotation="0 90 0" material="src: #artwork1; color: white; transparent: true; side: double" geometry="" onclick="openInNewTab('https://www.inandina.edu.co/')"></a-plane> -->
-    <a-curvedimage id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.inandina.edu.co/')" src="#artwork1" height="3.0" radius="15.200" theta-length="43.410"
-    rotation="0 168.250 0" position="-16.056 2.399 4.179" scale="0.520 0.800 0.800" ></a-curvedimage>
+    <a-curvedimage id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.nomaddi.com/')"
+      src="#artwork1" height="3.0" radius="17.960" theta-length="43.410" rotation="0 207.610 0"
+      position="-3.030 2.399 7.632" scale="0.520 0.800 0.800"></a-curvedimage>
 
     <a-curvedimage src="#video1" id="video-screen" height="3.0" radius="8.780" theta-length="66.070"
-    rotation="0 4.422 0" position="7.664 2.567 13.723" scale="0.520 0.800 0.800" >
-   <!-- reproductor -->
-   <a-entity id="movieScreenControls" position="2.592 -2.971 3.863" rotation="0 -144.840 0" scale="1.5 1.5 1">
+      rotation="0 4.422 0" position="7.664 2.567 13.723" scale="0.520 0.800 0.800">
+    </a-curvedimage>
+    <a-sphere id="activador" position="7.890 0.795 16.169" radius="5" color="#ECECEC" visible="false"
+      video-controller="videoId: video1;"></a-sphere>
+    <a-entity id="volumen" position="10.359 1.575 19.498" rotation="0 -141.653 0">
+      <a-image class="clickable" onclick="changeVolume('video1', 0.1)" id="mas" width="0.4" height="0.4"
+        src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
+      <a-image class="clickable" onclick="changeVolume('video1', -0.1)" id="menos" width="0.4" height="0.4"
+        src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
+    </a-entity>
 
-
-    <!-- Controls for display of video screen, seems to work nicely, javascript below </scene> tag below -->
-   
-        <!-- MEDIAS HOLDER -->
-        <a-sound id="alert-sound" src="src: url(../assets/wav/action.wav)" autoplay="false" position="0 0 0"></a-sound>
-    
-        <!-- CONTROLS -->
-        <a-image class="clickable" id="control-back" width="0.4" height="0.4" src="#seek-back" position="-0.42425 0.565 -3.47602" rotation="0 1.2570694025170261 0" visible="false" scale="0.85 0.85 0.85"></a-image>
-        <a-image class="clickable" id="control-play" width="0.4" height="0.4" src="#play" position="-0.00457 0.565 -3.47602" rotation="0 1.2570694025170261 0"></a-image>
-        <a-image class="clickable" id="control-volume" width="0.4" height="0.4" src="#volume-mute" position="0.38786 0.565 -3.47602" rotation="0 1.2570694025170261 0" visible="false" scale="0.75 0.75 0.75"></a-image>
-        <!-- END CONTROLS -->
-
-        <!-- PROGRESSBAR -->
-        <a-entity id="progress-bar" geometry="primitive:plane;height:0.1;width:4" material="opacity:0;transparent:true;visible:false" position="-0.00457 0.835 -3.47602" rotation="0 1.2570694025170261 0" >
-          <a-plane id="progress-bar-track" width="4" height="0.1" color="gray" position="" opacity="0.2" material="" visible="false" geometry=""></a-plane>
-          <a-plane id="progress-bar-fill" width="2.496982785433659" height="0.1" color="#7198e5" position="-0.7515086072831705 0 0" geometry="" visible="false" material=""></a-plane>
-        </a-entity>
-        <!-- END PROGRESSBAR -->
-
-    </a-entity></a-curvedimage>
-
-   
 
     <a-entity id="objetos" rotation="0 -50 0" position="0 0 0" hide-on-enter-ar>
-      <a-box position="-5.148 -0.1 -0.355" visible="false" geometry="width:33.67;height:0.2;depth:19.06"
-        physx-body="type: static;" physx-restitution="1.5">
-      </a-box>
-      <!-- <a-gltf-model id="pot" toggle-physics shadow="receive:false;" src="#stew-gltf" position="-2 1.2 0.8"
-        physx-body-from-model="type:dynamic;mass:2;">
-        <a-entity id="stew-handle-1" data-magnet-range="0.2,0.1,360,180" data-pick-up="parent"
-          class="magnet-left magnet-right" position="0 0.35 -0.35" rotation="0 90 0"></a-entity>
-        <a-entity id="stew-handle-2" data-magnet-range="0.2,0.1,360,180" data-pick-up="parent"
-          class="magnet-left magnet-right" position="0 0.35 0.35" rotation="0 90 0"></a-entity>
-      </a-gltf-model> -->
-      <a-gltf-model id="table" shadow="receive:true;" src="#table-gltf" position="-3.881 0 2.363" rotation="0 99.480 0"
-        scale="1.5 1.5 1.5" physx-body-from-model="type: static;">
-        <a-plane rotation="-90 0 0" width="1.2" height="0.6" class="navmesh-hole" visible="false"></a-plane>
+      <a-gltf-model id="table" shadow="receive:true;" src="#table-gltf" position="-1.670 0 -0.211"
+        rotation="0 140.000 0" scale="1.5 1.5 1.5" physx-body-from-model="type: static;">
       </a-gltf-model>
-
       <!-- Button test -->
-      <a-box position="-3.794 0.893 2.368" rotation="0 8.880 0" width="0.2" height="0.2" depth="0.2" color="grey"
+      <a-box position="-1.645 0.893 -0.194" rotation="0 8.880 0" width="0.2" height="0.2" depth="0.2" color="grey"
         animation__press="startEvents:press;property:components.material.material.color;type:color;to:green;dur:100;"
         animation__release="startEvents:release;property:components.material.material.color;type:color;to:grey;dur:100;">
         <a-entity position="0 0.12 0"
@@ -368,59 +394,80 @@
           <a-cylinder radius="0.09" height="0.2" position="0 -0.1 0" color="hotpink"></a-cylinder>
         </a-entity>
       </a-box>
-
-      <a-gltf-model id="ladder" ladder="grabbables:#ladder-left-hand,#ladder-right-hand;cameraRig:#cameraRig;" shadow
-        src="#ladder-gltf" position="-26.369 14.587 -64.202" rotation="-4.9623 -19.509 0.6165" scale="2 2 2"
-        physx-body-from-model="type: static;">
-        <a-plane rotation="-90 0 0" width="1.2" height="0.6" class="navmesh-hole" visible="false"></a-plane>
-        <a-entity position="-0.25 0.07 0" linear-constraint="target:#left-no-magnet;axis:0 1 0;min:0;max:2.4;step:0.2;">
-          <a-entity id="ladder-left-hand" data-magnet-range="0.2,0.15,360,300" class="magnet-left" rotation="0 90 0"
-            linear-constraint="target:#left-no-magnet;axis:1 0 0;max:0.5;"></a-entity>
-        </a-entity>
-        <a-entity position="-0.25 0.07 0" linear-constraint="target:#right-no-magnet;axis:0 1 0;max:2.5;step:0.2;">
-          <a-entity id="ladder-right-hand" data-magnet-range="0.2,0.15,360,300" class="magnet-right" rotation="0 -90 0"
-            linear-constraint="target:#right-no-magnet;axis:1 0 0;max:0.5;"></a-entity>
-        </a-entity>
-      </a-gltf-model>
-
-      <a-gltf-model id="clock" shadow="receive:true;" src="#clock-gltf" position="2.139 0 -2.715" rotation="0 2.970 0"
-        physx-body-from-model="type:dynamic;mass:15;"></a-gltf-model>
-      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" position="-40.628 1.248 1.312"></a-gltf-model>
-      <a-gltf-model src="#building-glb" id="building" lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
-        depthwrite="true" window-replace="Glass" no-tonemapping="Light" shadow="cast:false;receive:true;"
-        position="-40.628 1.248 1.312"></a-gltf-model>
     </a-entity>
+    <a-entity light="type: ambient; color: #BBB"></a-entity>
+
+    <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" position="-28.428 1.248 -29.278"
+      rotation="0 -48.400 0"></a-gltf-model>
+    <a-gltf-model src="#building-glb" id="building" depthwrite="true" window-replace="Glass" light="intensity: 5.0"
+      shadow="cast:false;receive:true;" position="-28.428 1.248 -29.278" rotation="0 -48.400 0"></a-gltf-model>
 
     <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
 
-    <!-- orbes en 360 -->
-    <a-entity id="orbesIn">
-      <a-sphere id="orb_place1" scale="5 5 5" position="33.255 9.160 -37.982" material="side: double;src: #1"></a-sphere>
-      <a-sphere id="orb_place2" scale="5 5 5" position="23.524 9.160 -43.558" material="side: double;src: #2"></a-sphere>
-    </a-entity>
+    <a-entity environment="preset: forest; lightPosition:0 46 0" position="8.469 -0.373 16.759" rotation="0 -2.780 0"
+      material="shader: flat;"></a-entity>
 
-      <!-- iluminacion -->
-      <a-entity id="ambientlight" light="type: ambient; intensity: .95"></a-entity>
-      <!-- oceanos -->
-      <a-ocean id="ourOcean" position="-47.35699 -0.090 40.11002" rotation="-91.570 0 0" scale="12 12 6" width="30" depth="30" opacity="0.55"
-        ocean="color: #63b3d9; density: 5; amplitude: -0.03; speed: 0.2; speedVariance: 0.1"></a-ocean>
+    <!-- sillas -->
+    <a-gltf-model id="silla" shadow="receive:true;" src="#chair" position="32.71868 1.23537 23.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla1" shadow="receive:true;" src="#chair" position="30.71868 1.23537 23.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla2" shadow="receive:true;" src="#chair" position="28.71868 1.23537 23.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla3" shadow="receive:true;" src="#chair" position="26.71868 1.23537 23.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla4" shadow="receive:true;" src="#chair" position="32.71868 1.23537 21.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla5" shadow="receive:true;" src="#chair" position="30.71868 1.23537 21.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla6" shadow="receive:true;" src="#chair" position="28.71868 1.23537 21.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla7" shadow="receive:true;" src="#chair" position="26.71868 1.23537 21.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla8" shadow="receive:true;" src="#chair" position="32.71868 1.23537 19.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla9" shadow="receive:true;" src="#chair" position="30.71868 1.23537 19.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla10" shadow="receive:true;" src="#chair" position="28.71868 1.23537 19.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
+    <a-gltf-model id="silla11" shadow="receive:true;" src="#chair" position="26.71868 1.23537 19.02413" rotation="0 135 0"
+      scale="0.013 0.013 0.013" foo>
+    </a-gltf-model>
 
-      <!-- sky -->
-      <a-sky id="orbSky" material="src: #orb1" rotation="0 0 0"></a-sky>
+    <!-- aviso1 -->
+    <a-gltf-model id="aviso-1" shadow="receive:true;" src="#aviso1" position="3.122 -0.264 20.908" rotation="0 -163.459 0"
+      scale="0.6 0.6 0.6">
+    </a-gltf-model>
+
+    <!-- aviso2 -->
+    <a-gltf-model id="aviso-2" shadow="receive:true;" src="#aviso2" position="9.419 -0.264 10.368" rotation="0 88.541 0"
+      scale="0.6 0.6 0.6">
+    </a-gltf-model>
 
   </a-scene>
   <!-- audio -->
   <audio id="playAudio" autoplay loop>
-    <source src="../assets/mp3/oceanSound.mp3" type="audio/mpeg">
+    <source src="../assets/mp3/fondo-sound.mp3" type="audio/mpeg">
   </audio>
   <div id="dom-overlay">
     <!-- titulo -->
-    <div id="splash">
+    <!-- <div id="splash">
       <div class="loading"></div>
       <div class="start-button">
         <Font color="limegreen">Metaverso Inandina</Font>
       </div>
-    </div>
+    </div> -->
     <section
       style="display: inline-block; background: lavenderblush; color: #333333; border-radius: 1em; padding: 1em; margin:0; accent-color: hotpink; position: fixed; bottom: 60px; left: 2px;"
       id="my-interface">
@@ -481,10 +528,15 @@
     </div>
   </div>
 
-  <div class="glitchButton" style="position: absolute; top: 1em; right: 1em;"></div>
-  <script src="https://button.glitch.me/button.js"></script>
   <!-- reproductor-->
-  <script src="../js/video.js"></script>
+  <script src="video-controller.js"></script>
+
+  <!-- sentarse -->
+  <script src="down.js"></script>
+
+  <!-- informacio -->
+  <script src="../js/info-panel.js"></script>
+
 </body>
 
 </html>

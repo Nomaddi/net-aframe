@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var audio = document.getElementById('playAudio');
     var muteButton = document.getElementById('muteButton');
     // Establece el volumen inicial al 20%
-    audio.volume = 0.05;
+    audio.volume = 0.02;
     
     // Manejar el clic del botón del micrófono (Silenciar y No silenciar)
     micBtnEle.addEventListener('click', function () {

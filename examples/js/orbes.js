@@ -40,26 +40,30 @@ function speakInfo(narration) {
     }
 }
 function changeOrb(orb_num) {
-    document.getElementById('orbSky').setAttribute('material', 'src: #orb' + orb_num.toString());
+    document.getElementById('orbSky').setAttribute('material', 'src: #orb' + orb_num.toString());   
     removeScene();
 }
 function removeScene() {
     document.getElementById('building').setAttribute('visible', false);
-    document.getElementById('ourOcean').setAttribute('visible', false);
+    document.getElementById('artworkPosition1').setAttribute('visible', false);
+    document.getElementById('video-screen').setAttribute('visible', false);
+    document.getElementById('piano').setAttribute('visible', false);
+    document.getElementById('portal-1').setAttribute('visible', false);
+    document.getElementById('entorno2').setAttribute('visible', false);
     document.getElementById('ui').setAttribute('visible', false);
-    document.getElementById('my-ar-objects').setAttribute('visible', false);
     document.getElementById('objetos').setAttribute('visible', false);
-    document.getElementById('orbesIn').setAttribute('visible', false);
     document.getElementById('ReturnIsland').setAttribute('visible', true);
 }
 function restoreScene() {
     document.getElementById('orbSky').setAttribute('material', 'src: #orb1');
     document.getElementById('building').setAttribute('visible', true);
-    document.getElementById('ourOcean').setAttribute('visible', true);  
+    document.getElementById('artworkPosition1').setAttribute('visible', true);
+    document.getElementById('video-screen').setAttribute('visible', true);
+    document.getElementById('piano').setAttribute('visible', true);
+    document.getElementById('portal-1').setAttribute('visible', true);
+    document.getElementById('entorno2').setAttribute('visible', true);
     document.getElementById('ui').setAttribute('visible', true);
-    document.getElementById('my-ar-objects').setAttribute('visible', true);
     document.getElementById('objetos').setAttribute('visible', true);
-    document.getElementById('orbesIn').setAttribute('visible', true);  
     document.getElementById('ReturnIsland').setAttribute('visible', false);
 }
 function sqrImg(imgNum) {

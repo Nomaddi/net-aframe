@@ -53,18 +53,6 @@ AFRAME.registerComponent("match-position-by-id", {
   }
 });
 
-AFRAME.registerComponent("xr-follow", {
-  schema: {},
-  init() {
-  },
-  tick() {
-    const scene = this.el.sceneEl;
-    const camera = scene.camera;
-    const object3D = this.el.object3D;
-    camera.getWorldPosition(object3D.position);
-    object3D.parent.worldToLocal(object3D.position);
-  }
-});
 
 AFRAME.registerComponent("exit-on", {
   schema: {
@@ -184,7 +172,6 @@ AFRAME.registerComponent("ladder", {
 window.addEventListener("DOMContentLoaded", function() {
   const sceneEl = document.querySelector("a-scene");
   const message = document.getElementById("dom-overlay-message");
-  const arContainerEl = document.getElementById("my-ar-objects");
   const cameraRig = document.getElementById("cameraRig");
   const building = document.getElementById("building");
 
@@ -203,29 +190,7 @@ window.addEventListener("DOMContentLoaded", function() {
     });
   }
   
-  watergun: {
-    const watergun = document.getElementById("watergun");
-    const watergunSlider = watergun.firstElementChild;
-    watergun.addEventListener('grabbed', function (e) {
-      const by = e.detail.by;
-      if (e.target === watergun) {
-        watergun.className = '';
-        if (by.dataset.right) watergunSlider.className = 'magnet-left';
-        if (by.dataset.left) watergunSlider.className = 'magnet-right';
-      }
-      if (e.target === watergunSlider) {
-        watergun.setAttribute('linear-constraint', 'target', '#' + e.detail.byNoMagnet.id);
-      }
-    });
-    watergun.addEventListener('released', function (e) {
-      const by = e.detail.by;
-      watergun.setAttribute('linear-constraint', 'target', '');
-      if (e.target === watergun) {
-        watergun.className = 'magnet-right magnet-left';
-        watergunSlider.className = '';
-      }
-    });
-  }
+
 
   // If the user taps on any buttons or interactive elements we may add then prevent
   // Any WebXR select events from firing
