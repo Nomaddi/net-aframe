@@ -1,8 +1,10 @@
 AFRAME.registerComponent('video-controller', {
+    schema: {
+        videoId: { type: 'string' } // Atributo para el ID del video
+    },
     init: function () {
-        this.videoEl = document.querySelector('#video1');
-        var activadorEl = document.querySelector('#activador');
-
+        this.videoEl = document.querySelector(`#${this.data.videoId}`);
+        var activadorEl = this.el;
 
         this.el.addEventListener('hit', (e) => {
             if (this.videoEl.paused) {
@@ -16,12 +18,12 @@ AFRAME.registerComponent('video-controller', {
             }
         })
     }
-})
+});
 
-const videoElement = document.getElementById('video1');
-
-// Función para cambiar el volumen
-function changeVolume(amount) {
-    // Asegúrate de que el volumen esté en el rango de 0 a 1
-    videoElement.volume = Math.min(1, Math.max(0, videoElement.volume + amount));
-}
+function changeVolume(videoId, amount) {
+    const videoElement = document.getElementById(videoId);
+    if (videoElement) {
+      // Asegúrate de que el volumen esté en el rango de 0 a 1
+      videoElement.volume = Math.min(1, Math.max(0, videoElement.volume + amount));
+    }
+  }
