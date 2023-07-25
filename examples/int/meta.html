@@ -70,6 +70,9 @@
   <!-- redireccionamiento -->
   <script src="../js/url.js"></script>
 
+  <!-- redireccionamiento -->
+  <script src="intro.js"></script>
+
 
 
 
@@ -80,7 +83,15 @@
 </head>
 
 <body>
-  <a-scene stats loading-screen="enabled:false" id="scene-vr" networked-scene="
+  <div class="mainUI" id="uiDiv" oncontextmenu="return false;">
+    <!-- centered -->
+    <div class="regionUI">
+      <div class="buttonUI">
+        <img src="../assets/img/enter.png" id="buttonEnter" />
+      </div>
+    </div>
+  </div>
+  <a-scene start loading-screen="enabled:false" id="scene-vr" networked-scene="
         room: Metaverso;
         debug: true;
         adapter: easyrtc;
@@ -92,7 +103,7 @@
     raycaster="objects: .raycastable, .clickable, [link]" shadow="type: pcfsoft"
     gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;" ar-cursor>
 
-    </a-entity>
+    </a-entity> 
     <a-assets>
       <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverso.glb"></a-asset-item>
       <a-asset-item id="navmesh-glb" src="../assets/gltf-Jhon/mesh.glb"></a-asset-item>
@@ -177,8 +188,7 @@
 
       <a-mixin id="handle-visual" geometry="width:0.05;height:0.05;depth:0.2"></a-mixin>
       <!-- mixin para imagenes -->
-      <a-mixin id="frame" geometry="primitive: plane; width: 1.14; height: 1.62"
-        material="color: white; shader: flat"
+      <a-mixin id="frame" geometry="primitive: plane; width: 1.14; height: 1.62" material="color: white; shader: flat"
         animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
         animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"></a-mixin>
       <a-mixin id="poster" geometry="primitive: plane; width: 1.096; height: 1.565"
@@ -211,12 +221,12 @@
         sphere-collider='radius:0.440'></a-entity>
 
       <a-entity id="leftHand" data-left="ray" mixin="blink" data-no-magnet laser-controls="hand: left"
-        raycaster="objects: .raycastable, .clickable, [html];showLine:false;">
+        raycaster="objects: .raycastable, .clickable, [link], [html];showLine:false;">
         <a-entity html="html:#my-interface;cursor:#cursor" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0"
           scale="0.7 0.7 0.7"></a-entity>
       </a-entity>
       <a-entity id="rightHand" data-right="ray" mixin="blink" data-no-magnet laser-controls="hand: right"
-        raycaster="objects: .clickable, .raycastable, [html];far:0.3;showLine:false;lineColor:black;"
+        raycaster="objects: .clickable, .raycastable, [link], [html];far:0.3;showLine:false;lineColor:black;"
         line="color: #118A7E"></a-entity>
 
     </a-entity>
@@ -253,7 +263,7 @@
       position="3.353 4.082 -3.132"></a-curvedimage>
     <!-- video -->
     <a-curvedimage src="#video-motos" id="video-screen2" height="3.0" radius="8.780" theta-length="66.070"
-      rotation="0 -76.190 0" position="10.654 1.801 28.243" scale="0.520 0.800 0.800">
+      rotation="0 -76.190 0" position="10.851 1.801 28.243" scale="0.520 0.800 0.800">
     </a-curvedimage>
     <a-sphere id="activador-motos" position="8.920 0.795 29.426" scale="1.134 1 1 " radius="5" color="#ECECEC"
       visible="false" video-controller="videoId: video-motos;"></a-sphere>
@@ -290,76 +300,88 @@
       src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/piano.glb?v=1644414775118">
       <a-plane rotation="-90 0 0" width="1.5" height="0.6" class="navmesh-hole" visible="false"></a-plane>
     </a-gltf-model>
-<!-- Galería 1 -->
-<a-entity id="gallery1">
-  <a-entity position="-1.283 4.673 -3.211" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img1" src="#poster-motos-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
-  </a-entity>
-  <a-entity position="-1.860 3.116 -2.221" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img2" src="#poster-motos-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
-  </a-entity>
-  <a-entity position="-1.283 1.579 -3.211" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img3" src="#poster-motos-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
-  </a-entity>
-  <a-image id="zoom" visible="true" src="#poster-motos-3" width="3.1" height="4" position="-2.075 2.992 0.087" rotation="0 90 0" class="raycastable menu-button"></a-image>
-</a-entity>
+    <!-- Galería 1 -->
+    <a-entity id="gallery1">
+      <a-entity position="-1.283 4.673 -3.211" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img1" src="#poster-motos-1" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+      </a-entity>
+      <a-entity position="-1.860 3.116 -2.221" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img2" src="#poster-motos-2" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 1.579 -3.211" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img3" src="#poster-motos-3" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom;"></a-image>
+      </a-entity>
+      <a-image id="zoom" visible="true" src="#poster-motos-3" width="3.1" height="4" position="-2.075 2.992 0.087"
+        rotation="0 90 0" class="raycastable menu-button"></a-image>
+    </a-entity>
 
-<!-- Galería 2 -->
-<a-entity id="gallery2" position="15.474 -0.453 31.046" rotation="0 220 0">
-  <a-entity position="-1.283 4.673 2.948" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img4" src="#poster-patas-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
-  </a-entity>
-  <a-entity position="-1.860 3.116 3.837" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img5" src="#poster-patas-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
-  </a-entity>
-  <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img6" src="#poster-patas-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
-  </a-entity>
-  <a-image id="zoom2" visible="true" src="#poster-patas-1" width="3.1" height="4" position="0.381 2.992 1.317" rotation="0 35.590 0" class="raycastable menu-button"></a-image>
-</a-entity>
-<!-- Galería 3 -->
-<a-entity id="gallery3" position="-10.688 -0.453 22.494" rotation="0 120 0">
-  <a-entity position="-1.283 4.673 2.910" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img4" src="#poster-inandina-1" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
-  </a-entity>
-  <a-entity position="-1.283 3.116 2.910" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img5" src="#poster-inandina-2" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
-  </a-entity>
-  <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
-    <!-- Plano que actúa como el marco blanco -->
-    <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>    
-    <!-- Imagen superpuesta en el centro del marco -->
-    <a-image id="img6" src="#poster-inandina-3" width="1.2" height="1.4" position="0 0 0.001" class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
-  </a-entity>
-  <a-image id="zoom3" visible="true" src="#poster-inandina-3" width="3.1" height="4" position="-1.763 3.2 5.073" rotation="0 96 0" class="raycastable menu-button"></a-image>
-</a-entity>
+    <!-- Galería 2 -->
+    <a-entity id="gallery2" position="15.474 -0.453 31.046" rotation="0 220 0">
+      <a-entity position="-1.283 4.673 2.948" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img4" src="#poster-patas-1" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+      </a-entity>
+      <a-entity position="-1.860 3.116 3.837" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img5" src="#poster-patas-2" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img6" src="#poster-patas-3" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom2;"></a-image>
+      </a-entity>
+      <a-image id="zoom2" visible="true" src="#poster-patas-1" width="3.1" height="4" position="0.381 2.992 1.317"
+        rotation="0 35.590 0" class="raycastable menu-button"></a-image>
+    </a-entity>
+    <!-- Galería 3 -->
+    <a-entity id="gallery3" position="-10.688 -0.453 22.494" rotation="0 120 0">
+      <a-entity position="-1.283 4.673 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img4" src="#poster-inandina-1" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 3.116 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img5" src="#poster-inandina-2" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img6" src="#poster-inandina-3" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom3;"></a-image>
+      </a-entity>
+      <a-image id="zoom3" visible="true" src="#poster-inandina-3" width="3.1" height="4" position="-1.763 3.2 5.073"
+        rotation="0 96 0" class="raycastable menu-button"></a-image>
+    </a-entity>
 
-    
-    
+
+
     <!-- fin galeria -->
 
     <!-- cuadros -->
@@ -372,7 +394,8 @@
       rotation="0 4.422 0" position="7.664 2.567 13.723" scale="0.520 0.800 0.800">
     </a-curvedimage>
     <a-sphere id="activador" position="7.890 0.795 16.169" radius="5" color="#ECECEC" visible="false"
-      video-controller="videoId: video1;"></a-sphere>
+      ></a-sphere>
+      <!-- video-controller="videoId: video1;" -->
     <a-entity id="volumen" position="10.359 1.575 19.498" rotation="0 -141.653 0">
       <a-image class="clickable" onclick="changeVolume('video1', 0.1)" id="mas" width="0.4" height="0.4"
         src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
@@ -411,43 +434,43 @@
     <a-gltf-model id="silla" shadow="receive:true;" src="#chair" position="32.71868 1.23537 23.02413" rotation="0 135 0"
       scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla1" shadow="receive:true;" src="#chair" position="30.71868 1.23537 23.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla1" shadow="receive:true;" src="#chair" position="30.71868 1.23537 23.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla2" shadow="receive:true;" src="#chair" position="28.71868 1.23537 23.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla2" shadow="receive:true;" src="#chair" position="28.71868 1.23537 23.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla3" shadow="receive:true;" src="#chair" position="26.71868 1.23537 23.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla3" shadow="receive:true;" src="#chair" position="26.71868 1.23537 23.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla4" shadow="receive:true;" src="#chair" position="32.71868 1.23537 21.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla4" shadow="receive:true;" src="#chair" position="32.71868 1.23537 21.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla5" shadow="receive:true;" src="#chair" position="30.71868 1.23537 21.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla5" shadow="receive:true;" src="#chair" position="30.71868 1.23537 21.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla6" shadow="receive:true;" src="#chair" position="28.71868 1.23537 21.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla6" shadow="receive:true;" src="#chair" position="28.71868 1.23537 21.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla7" shadow="receive:true;" src="#chair" position="26.71868 1.23537 21.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla7" shadow="receive:true;" src="#chair" position="26.71868 1.23537 21.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla8" shadow="receive:true;" src="#chair" position="32.71868 1.23537 19.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla8" shadow="receive:true;" src="#chair" position="32.71868 1.23537 19.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla9" shadow="receive:true;" src="#chair" position="30.71868 1.23537 19.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla9" shadow="receive:true;" src="#chair" position="30.71868 1.23537 19.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla10" shadow="receive:true;" src="#chair" position="28.71868 1.23537 19.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla10" shadow="receive:true;" src="#chair" position="28.71868 1.23537 19.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
-    <a-gltf-model id="silla11" shadow="receive:true;" src="#chair" position="26.71868 1.23537 19.02413" rotation="0 135 0"
-      scale="0.013 0.013 0.013" foo>
+    <a-gltf-model id="silla11" shadow="receive:true;" src="#chair" position="26.71868 1.23537 19.02413"
+      rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
 
     <!-- aviso1 -->
-    <a-gltf-model id="aviso-1" shadow="receive:true;" src="#aviso1" position="3.122 -0.264 20.908" rotation="0 -163.459 0"
-      scale="0.6 0.6 0.6">
+    <a-gltf-model id="aviso-1" shadow="receive:true;" src="#aviso1" position="3.122 -0.264 20.908"
+      rotation="0 -163.459 0" scale="0.6 0.6 0.6">
     </a-gltf-model>
 
     <!-- aviso2 -->
