@@ -103,13 +103,11 @@
     raycaster="objects: .raycastable, .clickable, [link]" shadow="type: pcfsoft"
     gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;" ar-cursor>
 
-    </a-entity> 
+    </a-entity>
     <a-assets>
       <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverso.glb"></a-asset-item>
       <a-asset-item id="navmesh-glb" src="../assets/gltf-Jhon/mesh.glb"></a-asset-item>
       <a-asset-item id="chair" src="../assets/gltf-Jhon/chair.glb"></a-asset-item>
-      <a-asset-item id="aviso1" src="../assets/gltf-Jhon/aviso1.glb"></a-asset-item>
-      <a-asset-item id="aviso2" src="../assets/gltf-Jhon/aviso2.glb"></a-asset-item>
       <a-asset-item id="right-gltf"
         src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
       <a-asset-item id="left-gltf"
@@ -148,6 +146,10 @@
       <img id="patas" src="../assets/360/jhon-360/solopatas.jpg">
       <img id="motos" src="../assets/360/jhon-360/motos.jpg">
       <img id="inandina" src="../assets/360/jhon-360/inandina.png">
+
+      <img id="pizarra" src="../assets/img/pizarra.png">
+      <img id="poster-proximamente" src="../assets/img/proximamente.png">
+
 
       <!-- archivos para el reproductor -->
       <img crossorigin="anonymous" src="../assets/img/volume-mas.png" id="volume-mas">
@@ -220,20 +222,20 @@
         position="0 1.65 0" networked="template:#head-template;" visible="true"
         sphere-collider='radius:0.440'></a-entity>
 
-      <a-entity id="leftHand" data-left="ray" mixin="blink" data-no-magnet laser-controls="hand: left"
-        raycaster="objects: .raycastable, .clickable, [link], [html];showLine:false;">
+      <a-entity visible="false" id="leftHand" data-left="ray" mixin="blink" data-no-magnet laser-controls="hand: left"
+        raycaster="objects: .raycastable, .clickable, [html];showLine:false;">
         <a-entity html="html:#my-interface;cursor:#cursor" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0"
           scale="0.7 0.7 0.7"></a-entity>
       </a-entity>
-      <a-entity id="rightHand" data-right="ray" mixin="blink" data-no-magnet laser-controls="hand: right"
-        raycaster="objects: .clickable, .raycastable, [link], [html];far:0.3;showLine:false;lineColor:black;"
+      <a-entity visible="false" id="rightHand" data-right="ray" mixin="blink" data-no-magnet laser-controls="hand: right"
+        raycaster="objects: .clickable, .raycastable, [html];far:0.3;showLine:false;lineColor:black;"
         line="color: #118A7E"></a-entity>
 
     </a-entity>
     <!-- solo pata -->
     <!-- portal -->
-    <a-link id="portal-1" href="forest.html" image="#patas" scale="1.5 1.5 1.5" position="11.834 2.442 33.401"
-      rotation="0 25.010 0" link="titleColor:black;title:Solo patas"></a-link>
+    <a-link id="portal-1" href="https://mm18cendales.github.io/solo_patas/" image="#patas" scale="1.5 1.5 1.5"
+      position="11.741 2.590 33.401" rotation="0 25.010 0" link="titleColor:black;title:Portal\nSolo patas"></a-link>
     <!-- imagen -->
     <a-curvedimage src="#img-patas" class="clickable" height="3.0" radius="5.7" theta-length="72"
       onclick="openInNewTab('https://www.instagram.com/solo_patas_cmv/')" rotation="0 -69.480 0" scale="0.5 0.5 0.5"
@@ -256,8 +258,7 @@
     <!-- 3 motos -->
     <!-- portal -->
     <a-link id="portal-2" href="https://mm18cendales.github.io/proyecto1/" image="#motos" scale="1.5 1.5 1.5"
-      position="6.831 2.052 -3.905" rotation="0 -64.000 0" link="titleColor:black;title:3 Motos"></a-link>
-    <!-- imagen -->
+      position="6.640 2.218 -3.699" rotation="0 -64.000 0" link="titleColor:black;title:Portal\n3 Motos"></a-link>
     <a-curvedimage src="#img-motos" class="clickable" height="3.0" radius="5.7" theta-length="72"
       onclick="openInNewTab('https://3motos.co/')" rotation="0 170.550 0" scale="0.5 0.5 0.5 "
       position="3.353 4.082 -3.132"></a-curvedimage>
@@ -277,7 +278,7 @@
     <!-- 3 inandina -->
     <!-- portal -->
     <a-link id="portal-3" href="https://sidequestvr.com/app/20328/firegate-vr" image="#inandina" scale="1.5 1.5 1.5"
-      position="-12.965 2.420 14.537" rotation="0 114.150 0" link="titleColor:black;title:Inandina"></a-link>
+      position="-12.965 2.420 14.537" rotation="0 114.150 0" link="titleColor:black;title:Portal\nInandina;"></a-link>
     <!-- imagen -->
     <a-curvedimage src="#img-inandina" class="clickable" height="3.0" radius="5.7" theta-length="72"
       onclick="openInNewTab('https://www.inandina.edu.co/')" rotation="0 -129.920 0" scale="0.5 0.5 0.5 "
@@ -384,18 +385,23 @@
 
     <!-- fin galeria -->
 
+    <!-- pizarra 1-->
+    <a-plane id="pizarron" position="28.420 4.478 29.038" rotation="180 0 0"  src="#pizarra" height="3" width="6"></a-plane>
+
+    <!-- proximamente-->
+    <a-image id="proximamente" width="6" height="3" src="#poster-proximamente" position="16.858 3.027 2.630" rotation="0 -27.540 0"></a-image>
+    
+
     <!-- cuadros -->
     <!-- <a-plane id="artworkPosition1" class="clickable" position="-15.538 1.9 0.059" scale="5 5 5" rotation="0 90 0" material="src: #artwork1; color: white; transparent: true; side: double" geometry="" onclick="openInNewTab('https://www.inandina.edu.co/')"></a-plane> -->
-    <a-curvedimage id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.nomaddi.com/')"
-      src="#artwork1" height="3.0" radius="17.960" theta-length="43.410" rotation="0 207.610 0"
-      position="-3.030 2.399 7.632" scale="0.520 0.800 0.800"></a-curvedimage>
+    <a-box id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.nomaddi.com/')"  rotation="0 -31.900 0"
+      position="-11.865 2.399 -1.162" scale="0.760 3.060 6.020" visible="false"></a-box>
 
-    <a-curvedimage src="#video1" id="video-screen" height="3.0" radius="8.780" theta-length="66.070"
-      rotation="0 4.422 0" position="7.664 2.567 13.723" scale="0.520 0.800 0.800">
+    <a-curvedimage src="#video1" id="video-screen" height="3.070" radius="7.720" theta-length="66.070"
+      rotation="0 20.000 0" position="8.529 2.870 17.990" scale="0.380 1.340 0.300">
     </a-curvedimage>
-    <a-sphere id="activador" position="7.890 0.795 16.169" radius="5" color="#ECECEC" visible="false"
-      ></a-sphere>
-      <!-- video-controller="videoId: video1;" -->
+    <a-sphere id="activador" position="7.890 0.795 16.169" radius="5" color="#ECECEC" visible="false"></a-sphere>
+    <!-- video-controller="videoId: video1;" -->
     <a-entity id="volumen" position="10.359 1.575 19.498" rotation="0 -141.653 0">
       <a-image class="clickable" onclick="changeVolume('video1', 0.1)" id="mas" width="0.4" height="0.4"
         src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
@@ -422,12 +428,14 @@
 
     <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false" position="-28.428 1.248 -29.278"
       rotation="0 -48.400 0"></a-gltf-model>
-    <a-gltf-model src="#building-glb" id="building" depthwrite="true" window-replace="Glass" light="intensity: 5.0"
-      shadow="cast:false;receive:true;" position="-28.428 1.248 -29.278" rotation="0 -48.400 0"></a-gltf-model>
+    <a-gltf-model src="#building-glb" id="building" depthwrite="true" window-replace="Glass" light="intensity: 2.0"
+      shadow="cast:false;receive:true;" position="8.021 -1.211 12.027" rotation="0 -48.400 0"></a-gltf-model>
+    <a-plane id="avisos1" position="9.199 0.283 10.875" scale="1.649 1 1" rotation="-90 0 0" width="1.5" height="0.6" class="navmesh-hole" visible="false"></a-plane>
+
 
     <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
 
-    <a-entity environment="preset: forest; lightPosition:0 46 0" position="8.469 -0.373 16.759" rotation="0 -2.780 0"
+    <a-entity environment="preset: forest;fog:0; lightPosition:0 46 0" position="8.469 -0.373 16.759" rotation="0 -2.780 0"
       material="shader: flat;"></a-entity>
 
     <!-- sillas -->
@@ -468,15 +476,6 @@
       rotation="0 135 0" scale="0.013 0.013 0.013" foo>
     </a-gltf-model>
 
-    <!-- aviso1 -->
-    <a-gltf-model id="aviso-1" shadow="receive:true;" src="#aviso1" position="3.122 -0.264 20.908"
-      rotation="0 -163.459 0" scale="0.6 0.6 0.6">
-    </a-gltf-model>
-
-    <!-- aviso2 -->
-    <a-gltf-model id="aviso-2" shadow="receive:true;" src="#aviso2" position="9.419 -0.264 10.368" rotation="0 88.541 0"
-      scale="0.6 0.6 0.6">
-    </a-gltf-model>
 
   </a-scene>
   <!-- audio -->
