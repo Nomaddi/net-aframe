@@ -174,6 +174,8 @@ window.addEventListener("DOMContentLoaded", function() {
   const message = document.getElementById("dom-overlay-message");
   const cameraRig = document.getElementById("cameraRig");
   const building = document.getElementById("building");
+  const leftHandElement = document.querySelector('#leftHand');
+  const rightHandElement = document.querySelector('#rightHand');
 
   // Once the building has loaded update the relfections
   building.addEventListener('object3dset', function () {
@@ -199,9 +201,13 @@ window.addEventListener("DOMContentLoaded", function() {
   });
 
   sceneEl.addEventListener("enter-vr", function() {
+    leftHandElement.setAttribute("raycaster", "objects: .raycastable, .clickable, [link], [html]; showLine:false;");
+    leftHandElement.setAttribute('visible', 'true');
+    rightHandElement.setAttribute('raycaster', 'objects: .clickable, .raycastable, [link], [html]; far:0.3; showLine:false; lineColor:black;');
+    rightHandElement.setAttribute('visible', 'true');
     if (this.is("ar-mode")) {
       // Entered AR
-      message.textContent = "";
+      message.textContent = "";      
 
       // Hit testing is available
       this.addEventListener(
@@ -235,6 +241,11 @@ window.addEventListener("DOMContentLoaded", function() {
 
   sceneEl.addEventListener("exit-vr", function() {
     message.textContent = "Salió del modo VR";
+
+    leftHandElement.setAttribute("raycaster", "objects: .raycastable, .clickable, [html]; showLine:false;");
+    leftHandElement.setAttribute('visible', 'false');
+    rightHandElement.setAttribute('raycaster', 'objects: .clickable, .raycastable, [html]; far:0.3; showLine:false; lineColor:black;');
+    rightHandElement.setAttribute('visible', 'false');
   });
 });
 
