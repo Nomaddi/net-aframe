@@ -108,6 +108,8 @@
       <a-asset-item id="building-glb" src="../assets/gltf-Jhon/metaverso.glb"></a-asset-item>
       <a-asset-item id="navmesh-glb" src="../assets/gltf-Jhon/mesh.glb"></a-asset-item>
       <a-asset-item id="chair" src="../assets/gltf-Jhon/chair.glb"></a-asset-item>
+      <a-asset-item id="logo-sena" src="../assets/gltf/logo_sena.glb"></a-asset-item>
+      <a-asset-item id="flecha-sena" src="../assets/gltf/Flecha sena.glb"></a-asset-item>
       <a-asset-item id="right-gltf"
         src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
       <a-asset-item id="left-gltf"
@@ -146,6 +148,7 @@
       <img id="patas" src="../assets/360/jhon-360/solopatas.jpg">
       <img id="motos" src="../assets/360/jhon-360/motos.jpg">
       <img id="inandina" src="../assets/360/jhon-360/inandina.png">
+      <img id="sena" src="../assets/360/jhon-360/sena-360.png">
 
       <img id="pizarra" src="../assets/img/pizarra.png">
       <img id="poster-proximamente" src="../assets/img/proximamente.png">
@@ -159,10 +162,12 @@
       <img crossorigin="anonymous" id="img-patas" src="../assets/img/solopatas.png">
       <img crossorigin="anonymous" id="img-motos" src="../assets/img/motos.png">
       <img crossorigin="anonymous" id="img-inandina" src="../assets/img/inandina.jpg">
+      <img crossorigin="anonymous" id="img-sena" src="../assets/img/sena.png">
       <video id="video1" src="../assets/video/VRpitch.mp4"></video>
       <video id="video-patas" src="../assets/video/motos.mp4"></video>
       <video id="video-motos" src="../assets/video/patas.mp4"></video>
       <video id="video-inandina" src="../assets/video/inandina.mp4"></video>
+      <video id="video-sena" src="../assets/video/sena.mp4"></video>
       <!-- imagenes solo patas -->
       <img crossorigin="anonymous" id="poster-patas-1" src="../assets/img/patas/solo-patas-1.jpg">
       <img crossorigin="anonymous" id="poster-patas-2" src="../assets/img/patas/solo-patas-2.jpg">
@@ -175,6 +180,10 @@
       <img crossorigin="anonymous" id="poster-inandina-1" src="../assets/img/inandina/poster-inandina-1.jpg">
       <img crossorigin="anonymous" id="poster-inandina-2" src="../assets/img/inandina/poster-inandina-2.png">
       <img crossorigin="anonymous" id="poster-inandina-3" src="../assets/img/inandina/poster-inandina-3.jpg">
+      <!-- imagenes solo sena -->
+      <img crossorigin="anonymous" id="poster-sena-1" src="../assets/img/sena/poster-sena-1.jpg">
+      <img crossorigin="anonymous" id="poster-sena-2" src="../assets/img/sena/poster-sena-2.jpg">
+      <img crossorigin="anonymous" id="poster-sena-3" src="../assets/img/sena/poster-sena-3.jpg">
 
 
       <!-- fin -->
@@ -227,7 +236,8 @@
         <a-entity html="html:#my-interface;cursor:#cursor" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0"
           scale="0.7 0.7 0.7"></a-entity>
       </a-entity>
-      <a-entity visible="false" id="rightHand" data-right="ray" mixin="blink" data-no-magnet laser-controls="hand: right"
+      <a-entity visible="false" id="rightHand" data-right="ray" mixin="blink" data-no-magnet
+        laser-controls="hand: right"
         raycaster="objects: .clickable, .raycastable, [html];far:0.3;showLine:false;lineColor:black;"
         line="color: #118A7E"></a-entity>
 
@@ -293,6 +303,27 @@
       <a-image class="clickable" onclick="changeVolume('video-inandina', 0.1)" id="mas" width="0.4" height="0.4"
         src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
       <a-image class="clickable" onclick="changeVolume('video-inandina', -0.1)" id="menos" width="0.4" height="0.4"
+        src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
+    </a-entity>
+
+    <!-- 4 sena -->
+    <!-- portal -->
+    <a-link id="portal-4" href="https://www.instagram.com/cismtech_villavicencio?utm_source=qr&igshid=YzU1NGVlODEzOA%3D%3D" image="#sena" scale="1.5 1.5 1.5"
+      position="19.706 2.420 5.223" rotation="1.054 114.150 -73.760" link="titleColor:black;title:Portal\nSena;"></a-link>
+    <!-- imagen -->
+    <a-curvedimage src="#img-sena" class="clickable" height="3.0" radius="5.7" theta-length="72"
+      onclick="openInNewTab('https://www.instagram.com/cismtech_villavicencio?utm_source=qr&igshid=YzU1NGVlODEzOA%3D%3D')" rotation="0 139.903 0" scale="0.5 0.5 0.5 "
+      position="15.084 4.296 4.029"></a-curvedimage>
+    <!-- video -->
+    <a-curvedimage src="#video-sena" id="video-screen4" height="3.0" radius="20" theta-length="26.920"
+      rotation="0 147.130 0" position="9.503 1.994 15.946" scale="0.520 0.800 0.800">
+    </a-curvedimage>
+    <a-sphere id="activador-sena" position="16.125 0.795 6.321" scale="0.838 1 1 " radius="5" color="#ECECEC"
+      visible="false" video-controller="videoId: video-sena;"></a-sphere>
+    <a-entity id="volumen" position="16.000 0.939 1.629" rotation="0 0 0">
+      <a-image class="clickable" onclick="changeVolume('video-sena', 0.1)" id="mas" width="0.4" height="0.4"
+        src="#volume-mas" position="-0.421 0 0" scale="0.75 0.75 0.75"></a-image>
+      <a-image class="clickable" onclick="changeVolume('video-sena', -0.1)" id="menos" width="0.4" height="0.4"
         src="#volume-menos" scale="0.75 0.75 0.75"></a-image>
     </a-entity>
 
@@ -381,21 +412,49 @@
         rotation="0 96 0" class="raycastable menu-button"></a-image>
     </a-entity>
 
+    <!-- Galería 4 -->
+    <a-entity id="gallery4" position="13.011 -0.453 -0.039" rotation="0 -4.490 0">
+      <a-entity position="-1.283 4.673 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img10" src="#poster-sena-1" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom4;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 3.116 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img11" src="#poster-sena-2" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom4;"></a-image>
+      </a-entity>
+      <a-entity position="-1.283 1.579 2.910" rotation="0 60.000 0">
+        <!-- Plano que actúa como el marco blanco -->
+        <a-plane width="1.4" height="1.6" color="white" material="side: double;"></a-plane>
+        <!-- Imagen superpuesta en el centro del marco -->
+        <a-image id="img12" src="#poster-sena-3" width="1.2" height="1.4" position="0 0 0.02"
+          class="raycastable menu-button" image-controller="imageId: zoom4;"></a-image>
+      </a-entity>
+      <a-image id="zoom4" visible="true" src="#poster-sena-3" width="3.1" height="4" position="-1.883 3.2 5.073"
+        rotation="0 86.990 0" class="raycastable menu-button"></a-image>
+    </a-entity>
+
 
 
     <!-- fin galeria -->
 
     <!-- pizarra 1-->
-    <a-plane id="pizarron" position="28.420 4.478 29.038" rotation="180 0 0"  src="#pizarra" height="3" width="6"></a-plane>
+    <a-plane id="pizarron" position="28.420 4.478 29.038" rotation="180 0 0" src="#pizarra" height="3"
+      width="6"></a-plane>
 
     <!-- proximamente-->
-    <a-image id="proximamente" width="6" height="3" src="#poster-proximamente" position="16.858 3.027 2.630" rotation="0 -27.540 0"></a-image>
-    
+    <!-- <a-image id="proximamente" width="6" height="3" src="#poster-proximamente" position="16.858 3.027 2.630" rotation="0 -27.540 0"></a-image> -->
+
 
     <!-- cuadros -->
     <!-- <a-plane id="artworkPosition1" class="clickable" position="-15.538 1.9 0.059" scale="5 5 5" rotation="0 90 0" material="src: #artwork1; color: white; transparent: true; side: double" geometry="" onclick="openInNewTab('https://www.inandina.edu.co/')"></a-plane> -->
-    <a-box id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.nomaddi.com/')"  rotation="0 -31.900 0"
-      position="-11.865 2.399 -1.162" scale="0.760 3.060 6.020" visible="false"></a-box>
+    <a-box id="artworkPosition1" class="clickable" onclick="openInNewTab('https://www.nomaddi.com/')"
+      rotation="0 -31.900 0" position="-11.865 2.399 -1.162" scale="0.760 3.060 6.020" visible="false"></a-box>
 
     <a-curvedimage src="#video1" id="video-screen" height="3.070" radius="7.720" theta-length="66.070"
       rotation="0 20.000 0" position="8.529 2.870 17.990" scale="0.380 1.340 0.300">
@@ -430,14 +489,22 @@
       rotation="0 -48.400 0"></a-gltf-model>
     <a-gltf-model src="#building-glb" id="building" depthwrite="true" window-replace="Glass" light="intensity: 2.0"
       shadow="cast:false;receive:true;" position="8.021 -1.211 12.027" rotation="0 -48.400 0"></a-gltf-model>
-    <a-plane id="avisos1" position="9.199 0.283 10.875" scale="1.649 1 1" rotation="-90 0 0" width="1.5" height="0.6" class="navmesh-hole" visible="false"></a-plane>
+    <a-plane id="avisos1" position="9.199 0.283 10.875" scale="1.649 1 1" rotation="-90 0 0" width="1.5" height="0.6"
+      class="navmesh-hole" visible="false"></a-plane>
 
 
     <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
 
-    <a-entity environment="preset: forest;fog:0; lightPosition:0 46 0" position="8.469 -0.373 16.759" rotation="0 -2.780 0"
-      material="shader: flat;"></a-entity>
+    <a-entity environment="preset: forest;fog:0; lightPosition:0 46 0" position="8.469 -0.373 16.759"
+      rotation="0 -2.780 0" material="shader: flat;"></a-entity>
 
+    <!-- sena -->
+    <a-gltf-model id="logo-sena-1" shadow="receive:true;" src="#logo-sena" position="16.057 7.744 6.633"
+      rotation="90 -42.030 0" scale="0.5 0.5 0.5">
+    </a-gltf-model>
+    <a-gltf-model id="flecha-sena-1" shadow="receive:true;" src="#flecha-sena" position="8.988 -0.884 10.464" rotation="0 96.388 0"
+      scale="0.6 0.6 0.6">
+    </a-gltf-model>
     <!-- sillas -->
     <a-gltf-model id="silla" shadow="receive:true;" src="#chair" position="32.71868 1.23537 23.02413" rotation="0 135 0"
       scale="0.013 0.013 0.013" foo>
